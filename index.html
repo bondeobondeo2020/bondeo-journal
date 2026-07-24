@@ -131,19 +131,19 @@
   .logo-mark .logo-word{ height:32px; margin:0 -2px; }
   .logo-mark .logo-word-en{ height:15px; margin:1px 0 0 2px; }
   nav.scrolled .logo-mark img{ filter:none; }
-  .nav-links{display:flex; gap:34px; font-size:15px; letter-spacing:0.05em; position:relative;}
-  .nav-links a{color:rgba(255,255,255,0.9); position:relative; padding-bottom:4px; transition:color .5s ease;}
+  .nav-links{display:flex; gap:34px; font-size:15px; letter-spacing:0.05em; position:relative; flex-wrap:wrap;}
+  .nav-links a{color:rgba(255,255,255,0.9); position:relative; padding-bottom:4px; transition:color .5s ease; white-space:nowrap;}
   nav.scrolled .nav-links a{color:var(--ink-soft);}
   .nav-links a.active{color:var(--amber);}
   nav.scrolled .nav-links a.active{color:var(--amber);}
   .nav-links a::after{content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--amber); transition:width .3s ease;}
   .nav-links a:hover::after{width:100%;}
   .nav-rail{ position:absolute; left:0; bottom:-8px; width:0; height:2px; border-radius:2px; background:var(--amber); opacity:0; transition:left .45s var(--ease-luxury), width .45s var(--ease-luxury), opacity .3s ease; pointer-events:none; }
-  .nav-cta{ border:1px solid rgba(255,255,255,0.6); color:#fff; padding:9px 22px; font-size:13px; letter-spacing:0.08em; border-radius:30px; transition:all .4s ease; display:inline-block; }
+  .nav-cta{ border:1px solid rgba(255,255,255,0.6); color:#fff; padding:9px 22px; font-size:13px; letter-spacing:0.08em; border-radius:30px; transition:all .4s ease; display:inline-block; white-space:nowrap; flex-shrink:0; }
   nav.scrolled .nav-cta{ border-color:var(--amber); color:var(--amber); }
   .nav-cta:hover{ background:var(--amber); border-color:var(--amber); color:#fff; }
 
-  .lang-switch{ appearance:none; -webkit-appearance:none; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.5); color:#fff; font-size:12px; letter-spacing:0.04em; padding:7px 26px 7px 12px; border-radius:20px; cursor:pointer; transition:all .4s ease; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M7 10l5 5 5-5z'/></svg>"); background-repeat:no-repeat; background-position:right 8px center; background-size:12px; }
+  .lang-switch{ appearance:none; -webkit-appearance:none; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.5); color:#fff; font-size:12px; letter-spacing:0.04em; padding:7px 26px 7px 12px; border-radius:20px; cursor:pointer; transition:all .4s ease; background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'><path d='M7 10l5 5 5-5z'/></svg>"); background-repeat:no-repeat; background-position:right 8px center; background-size:12px; flex-shrink:0; }
   nav.scrolled .lang-switch{ background-color:rgba(18,18,18,0.05); border-color:var(--border-soft); color:var(--ink-soft); background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235B534C'><path d='M7 10l5 5 5-5z'/></svg>"); }
   .lang-switch:hover{ border-color:var(--amber); }
   .lang-switch option{ color:var(--ink); background:var(--cream); }
@@ -303,6 +303,23 @@
   .deep-progress span{ width:22px; height:2px; background:var(--border-soft); transition:background .3s ease; }
   .deep-progress span.active{ background:var(--amber); }
 
+  /* mobile: replace pinned 620vh scroll-jack with a normal scrollable list (avoids trapping users in a long swipe-through) */
+  .deep-mobile-list{ display:none; }
+  .dm-card{ background:#fff; border-radius:12px; padding:28px 24px; margin:0 20px 20px; box-shadow:0 2px 14px rgba(18,18,18,0.06); }
+  .dm-card-frame{ width:100%; aspect-ratio:4/3; border-radius:8px; overflow:hidden; margin-bottom:18px; background:var(--sage-pale); }
+  .dm-card-frame img{ width:100%; height:100%; object-fit:cover; }
+  .dm-card-no{ font-family:'Playfair Display', serif; font-style:italic; color:var(--mauve-deep); font-size:14px; letter-spacing:0.1em; margin-bottom:6px; }
+  .dm-card h3{ font-size:22px; color:var(--ink); margin-bottom:12px; }
+  .dm-card-flavor{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+  .dm-card-flavor span{ font-size:12px; letter-spacing:0.03em; padding:4px 12px; border-radius:20px; border:1px solid var(--border-soft); color:var(--ink-soft); }
+  .dm-card-specs{ display:grid; grid-template-columns:1fr 1fr; gap:8px 16px; margin-bottom:16px; }
+  .dm-card-specs div{ font-size:13px; color:var(--ink-soft); }
+  .dm-card-specs b{ color:var(--ink); font-weight:500; }
+  .dm-card-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:15px; color:var(--ink); margin-bottom:18px; }
+  .dm-card-foot{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .dm-card-price{ font-size:15px; color:var(--ink); }
+  .dm-card-cta{ font-size:12px; letter-spacing:0.06em; color:var(--amber); border-bottom:1px solid var(--amber); padding-bottom:2px; white-space:nowrap; }
+
   /* flavor wheel */
   .wheel-section{ padding:60px 0 120px; text-align:center; }
   .wheel-section h2{font-size:30px; color:var(--ink); margin-bottom:10px;}
@@ -371,6 +388,14 @@
   footer li a:hover{color:var(--mauve-pale);}
   .foot-bottom{ border-top:1px solid rgba(245,237,225,0.14); padding-top:24px; display:flex; justify-content:space-between; font-size:12px; color:rgba(245,237,225,0.45); }
 
+  @media (max-width:1180px){
+    nav{ padding:18px 28px; }
+    nav.scrolled{ padding:12px 28px; }
+    .nav-links{ gap:18px; font-size:13.5px; }
+    .nav-cta{ padding:8px 16px; font-size:12px; }
+    .lang-switch{ padding:6px 22px 6px 10px; font-size:11px; }
+  }
+
   @media (max-width:860px){
     .deep-grid{grid-template-columns:1fr; text-align:center;}
     .deep-frame{width:260px; height:320px; margin:0 auto;}
@@ -379,7 +404,15 @@
     .wheel-layout{grid-template-columns:1fr;}
     .j-grid{grid-template-columns:1fr;}
     .foot-grid{grid-template-columns:1fr; gap:36px;}
-    .nav-links{display:none;}
+    nav{ flex-wrap:wrap; row-gap:12px; padding:14px 18px; }
+    nav.scrolled{ padding:10px 18px; }
+    .logo-mark{ gap:6px; }
+    .logo-mark img{ height:30px; }
+    .logo-mark .logo-word{ height:22px; margin:0 -1px; }
+    .logo-mark .logo-word-en{ height:10px; }
+    .nav-links{ order:3; width:100%; justify-content:center; flex-wrap:wrap; gap:10px 20px; font-size:13px; }
+    .hero{ height:86vh; min-height:520px; }
+    .hero-img{ object-position:65% 25%; }
     .hero-inner{padding:0 24px 90px;}
     .scroll-cue{left:24px;}
     .counters{gap:40px;}
@@ -395,6 +428,10 @@
     .promo-bar{padding:9px 40px; font-size:12.5px; gap:8px;}
     .promo-bar a{display:none;}
     .quick-buy{right:16px; bottom:16px; padding:12px 18px; font-size:12px;}
+    /* mobile: swap the pinned 620vh scroll-jack section for a normal scrollable card list */
+    .deep-scroll{ height:auto !important; }
+    .deep-sticky{ display:none; }
+    .deep-mobile-list{ display:block; }
   }
 </style>
 </head>
@@ -470,7 +507,7 @@
     <div class="origin-media reveal"><img src="https://cdn.store-assets.com/s/1434862/f/17070663.jpeg" alt="磅茶由來 茶園採茶" loading="lazy"></div>
     <div class="origin-text reveal">
       <span class="eyebrow" data-i18n="origin_eyebrow">磅茶由來</span>
-      <h3 data-i18n="origin_h3">「磅茶喔！」一句放下重擔的呼喊</h3>
+      <h3 data-i18n="origin_h3">「磅茶喔！」<br>一句放下重擔的呼喊</h3>
       <p data-i18n="origin_p1">磅茶的誕生，源自海拔1700公尺的茶園秘境，採茶姑娘們頂著烈日，小心翼翼地將鮮嫩的茶葉收攏於背簍中，當班長高聲呼喊「磅茶喔！（Bon De O）」，歡笑聲頓時在茶園中散開——那是準備秤重、卸下滿肩重擔的時刻，儘管指尖長滿了繭，她們的臉上卻掛著滿足的笑容。</p>
       <span class="name-note" data-i18n="origin_note">「Bon De O」台語「ㄅㄥˇㄉㄟˊㄛ」，是放下壓力、釋放身心的代名詞。</span>
       <p data-i18n="origin_p2">帶著這份深植於台灣茶山的記憶，傳承三代的磅茶決定蛻變，用貼近現代生活的輕鬆步調，取代傳統茶業的嚴肅。期盼這杯好茶，能成為您忙碌生活中的一個逗號，讓喝茶成為一件輕鬆、快樂且理所當然的事。</p>
@@ -545,6 +582,7 @@
     </div>
     <div class="deep-progress" id="deepProgress"></div>
   </div>
+  <div class="deep-mobile-list" id="deepMobileList"></div>
 </section>
 
 <section class="wheel-section reveal" id="wheel">
@@ -775,7 +813,7 @@
     </div>
 
     <!-- JOURNAL_OWN_ARTICLES_START -->
-
+    <!-- 本區塊由 journal-cms.html 自動同步，請勿手動編輯內容（結構可以動，但內容每次發文會被覆蓋） -->
     <!-- JOURNAL_OWN_ARTICLES_END -->
   </div>
 </section>
@@ -832,7 +870,7 @@
       story_h2:'點綴每一個日常的，是100%嚴選台灣茶',
       story_p:'為您帶來職人好茶相伴的純粹生活。隨著晨醒與日落，我們提案陪伴各種情境的品茶時刻——從一杯磅茶開始，感受更簡單、更愜意的每一天。',
       origin_eyebrow:'磅茶由來',
-      origin_h3:'「磅茶喔！」一句放下重擔的呼喊',
+      origin_h3:'「磅茶喔！」<br>一句放下重擔的呼喊',
       origin_p1:'磅茶的誕生，源自海拔1700公尺的茶園秘境，採茶姑娘們頂著烈日，小心翼翼地將鮮嫩的茶葉收攏於背簍中，當班長高聲呼喊「磅茶喔！（Bon De O）」，歡笑聲頓時在茶園中散開——那是準備秤重、卸下滿肩重擔的時刻，儘管指尖長滿了繭，她們的臉上卻掛著滿足的笑容。',
       origin_note:'「Bon De O」台語「ㄅㄥˇㄉㄟˊㄛ」，是放下壓力、釋放身心的代名詞。',
       origin_p2:'帶著這份深植於台灣茶山的記憶，傳承三代的磅茶決定蛻變，用貼近現代生活的輕鬆步調，取代傳統茶業的嚴肅。期盼這杯好茶，能成為您忙碌生活中的一個逗號，讓喝茶成為一件輕鬆、快樂且理所當然的事。',
@@ -1380,7 +1418,29 @@
         renderDeep(i);
       }
 
+      var deepMQ = window.matchMedia('(max-width:860px)');
+      function isDeepMobile(){ return deepMQ.matches; }
+
+      var deepMobileListEl = document.getElementById('deepMobileList');
+      function renderDeepMobileList(){
+        if(!deepMobileListEl) return;
+        deepMobileListEl.innerHTML = products.map(function(p){
+          return '' +
+            '<div class="dm-card">' +
+              '<div class="dm-card-frame"><img src="'+p.img+'" alt="'+p.title+'" loading="lazy"></div>' +
+              '<div class="dm-card-no">'+p.no+'</div>' +
+              '<h3>'+p.title+'</h3>' +
+              '<div class="dm-card-flavor">'+p.flavor.map(function(f){ return '<span>'+f+'</span>'; }).join('')+'</div>' +
+              '<div class="dm-card-specs">'+p.specs.map(function(s){ return '<div><b>'+s[0]+'</b><br>'+s[1]+'</div>'; }).join('')+'</div>' +
+              '<div class="dm-card-quote">「'+p.quote+'」</div>' +
+              '<div class="dm-card-foot"><span class="dm-card-price">'+p.price+'</span><a class="dm-card-cta" href="'+p.cta+'">'+deepCta.textContent+'</a></div>' +
+            '</div>';
+        }).join('');
+      }
+      renderDeepMobileList();
+
       window.__registerScroll(function(){
+        if(isDeepMobile()) return;
         var rect = deepScroll.getBoundingClientRect();
         var total = rect.height - window.innerHeight;
         var progress = Math.min(Math.max(-rect.top / total, 0), 0.999);
@@ -1391,7 +1451,7 @@
         if(rect.top < window.innerHeight && rect.bottom > 0){ setDeep(idx); }
       });
       setDeep(0);
-      window.__rerenderDeep = function(){ renderDeep(currentDeepIdx < 0 ? 0 : currentDeepIdx); };
+      window.__rerenderDeep = function(){ renderDeep(currentDeepIdx < 0 ? 0 : currentDeepIdx); renderDeepMobileList(); };
 
       if(isFinePointer){
         var deepFrameEl = document.querySelector('.deep-frame');
