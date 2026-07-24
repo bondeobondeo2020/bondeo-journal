@@ -42,19 +42,19 @@
   "name": "磅茶 Bondeo 六款台灣原葉茶",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "item": {
-      "@type": "Product", "name": "四季春", "image": "https://journal.bondeo.com.tw/assets/sijichun.jpeg",
+      "@type": "Product", "name": "四季春", "image": "https://journal.bondeo.com.tw/assets/sijichun.webp",
       "description": "清冽爽口、鮮爽的台灣南投烏龍茶，適合午間重啟與飯後解膩。",
       "brand": { "@type": "Brand", "name": "磅茶 Bondeo" },
       "offers": { "@type": "Offer", "price": "450", "priceCurrency": "TWD", "availability": "https://schema.org/InStock", "url": "https://www.bondeo.com.tw/collections/lifestyle-tea/products/no1-four-seasons-tea" }
     }},
     { "@type": "ListItem", "position": 2, "item": {
-      "@type": "Product", "name": "奶香金萱烏龍", "image": "https://journal.bondeo.com.tw/assets/jinxuan.jpeg",
+      "@type": "Product", "name": "奶香金萱烏龍", "image": "https://journal.bondeo.com.tw/assets/jinxuan.webp",
       "description": "乳香花韻、圓潤柔順的台灣阿里山茶區烏龍茶，適合午後小憩。",
       "brand": { "@type": "Brand", "name": "磅茶 Bondeo" },
       "offers": { "@type": "Offer", "price": "550", "priceCurrency": "TWD", "availability": "https://schema.org/InStock", "url": "https://www.bondeo.com.tw/collections/lifestyle-tea/products/no2-jin-xuan-milk-oolong" }
     }},
     { "@type": "ListItem", "position": 3, "item": {
-      "@type": "Product", "name": "梨山高山茶", "image": "https://journal.bondeo.com.tw/assets/lishan.jpeg",
+      "@type": "Product", "name": "梨山高山茶", "image": "https://journal.bondeo.com.tw/assets/lishan.webp",
       "description": "極度滑順、甘甜順口的台灣梨山茶區高山烏龍茶。",
       "brand": { "@type": "Brand", "name": "磅茶 Bondeo" },
       "offers": { "@type": "Offer", "price": "850", "priceCurrency": "TWD", "availability": "https://schema.org/InStock", "url": "https://www.bondeo.com.tw/collections/lifestyle-tea/products/no3-lishan-high-mountain-tea" }
@@ -72,7 +72,7 @@
       "offers": { "@type": "Offer", "price": "650", "priceCurrency": "TWD", "availability": "https://schema.org/InStock", "url": "https://www.bondeo.com.tw/collections/lifestyle-tea/products/no5-honey-black-tea" }
     }},
     { "@type": "ListItem", "position": 6, "item": {
-      "@type": "Product", "name": "紅玉紅茶（台茶18號）", "image": "https://journal.bondeo.com.tw/assets/hongyu.jpeg",
+      "@type": "Product", "name": "紅玉紅茶（台茶18號）", "image": "https://journal.bondeo.com.tw/assets/hongyu.webp",
       "description": "天然涼感、層次分明的台灣南投紅玉紅茶（台茶18號）。",
       "brand": { "@type": "Brand", "name": "磅茶 Bondeo" },
       "offers": { "@type": "Offer", "price": "550", "priceCurrency": "TWD", "availability": "https://schema.org/InStock", "url": "https://www.bondeo.com.tw/collections/lifestyle-tea/products/no6-ruby-black-tea-ttes18" }
@@ -80,6 +80,7 @@
   ]
 }
 </script>
+<link rel="preload" as="image" href="assets/lineup-float.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -101,6 +102,12 @@
     --ease-luxury:cubic-bezier(.16,1,.3,1);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
+  .intro-veil{ position:fixed; inset:0; z-index:500; background:var(--cream); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:opacity .5s ease, visibility .5s ease; }
+  .intro-veil.hide{ opacity:0; visibility:hidden; pointer-events:none; }
+  .intro-mark img{ height:52px; width:auto; opacity:0; transform:scale(0.82); animation:introPop .8s cubic-bezier(.16,1,.3,1) forwards; }
+  @keyframes introPop{ 0%{opacity:0; transform:scale(0.8);} 55%{opacity:1; transform:scale(1.05);} 100%{opacity:1; transform:scale(1);} }
+  @media (prefers-reduced-motion: reduce){ .intro-mark img{ animation:none; opacity:1; transform:none; } }
+
   html{scroll-behavior:smooth; scroll-padding-top:110px;}
   body{ background:var(--cream); color:var(--ink); font-family:'Noto Sans TC', sans-serif; font-weight:400; font-size:16px; line-height:1.9; overflow-x:hidden; }
   h1,h2,h3{ font-family:'Noto Sans TC', sans-serif; font-weight:700; letter-spacing:0.01em; }
@@ -300,6 +307,17 @@
   .deep-media{ display:flex; align-items:center; justify-content:center; }
   .deep-frame{ width:360px; height:440px; border-radius:4px; overflow:hidden; background:var(--sage-pale); position:relative; transition:transform .5s var(--ease-luxury); transform-style:preserve-3d; will-change:transform; }
   .deep-frame img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .08s linear; will-change:transform; }
+
+  /* interactive hotspot: a small pulsing dot on the product photo that opens a
+     short brand-story note in place, instead of the photo being purely decorative */
+  .tea-hotspot{ position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); width:30px; height:30px; border:none; background:none; padding:0; cursor:pointer; z-index:4; display:flex; align-items:center; justify-content:center; }
+  .tea-hotspot .dot{ position:relative; display:block; width:11px; height:11px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.25); }
+  .tea-hotspot .dot::after{ content:''; position:absolute; inset:0; border-radius:50%; background:#fff; animation:hotspotPulse 2.4s ease-in-out infinite; }
+  @keyframes hotspotPulse{ 0%{box-shadow:0 0 0 0 rgba(255,255,255,0.55);} 70%{box-shadow:0 0 0 16px rgba(255,255,255,0);} 100%{box-shadow:0 0 0 0 rgba(255,255,255,0);} }
+  .tea-hotspot-card{ position:absolute; left:10px; right:10px; bottom:10px; background:rgba(18,16,14,0.85); backdrop-filter:blur(4px); border-radius:10px; padding:14px 16px; opacity:0; transform:translateY(8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:5; text-align:left; }
+  .tea-hotspot-card.open{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .tea-hotspot-card p{ font-size:12.5px; color:rgba(255,255,255,0.92); line-height:1.65; margin-bottom:8px; }
+  .tea-hotspot-card a{ font-size:11.5px; color:#fff; text-decoration:underline; text-underline-offset:3px; }
   .deep-no{ font-family:'Playfair Display', serif; font-style:italic; color:var(--mauve-deep); font-size:16px; letter-spacing:0.12em; margin-bottom:10px; opacity:0; transition:opacity .5s ease; }
   .deep-title{ font-size:32px; color:var(--ink); margin-bottom:16px; opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease; }
   .deep-flavor{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
@@ -318,7 +336,7 @@
   /* mobile: replace pinned 620vh scroll-jack with a normal scrollable list (avoids trapping users in a long swipe-through) */
   .deep-mobile-list{ display:none; }
   .dm-card{ background:#fff; border-radius:12px; padding:28px 24px; margin:0 20px 20px; box-shadow:0 2px 14px rgba(18,18,18,0.06); }
-  .dm-card-frame{ width:100%; aspect-ratio:4/3; border-radius:8px; overflow:hidden; margin-bottom:18px; background:var(--sage-pale); }
+  .dm-card-frame{ position:relative; width:100%; aspect-ratio:4/3; border-radius:8px; overflow:hidden; margin-bottom:18px; background:var(--sage-pale); }
   .dm-card-frame img{ width:100%; height:100%; object-fit:cover; }
   .dm-card-no{ font-family:'Playfair Display', serif; font-style:italic; color:var(--mauve-deep); font-size:14px; letter-spacing:0.1em; margin-bottom:6px; }
   .dm-card h3{ font-size:22px; color:var(--ink); margin-bottom:12px; }
@@ -344,6 +362,10 @@
   .wheel-axis-label{ font-size:11px; fill:var(--ink-soft); font-family:'Noto Sans TC', sans-serif; }
   .wheel-poly{ fill-opacity:0.22; stroke-width:2; opacity:0; transition:opacity .5s ease; }
   .wheel-poly.active{ opacity:1; }
+  /* the whole chart grows outward from center once the section scrolls into view —
+     reuses the sitewide .reveal/.in-view system already on .wheel-section, no extra JS needed */
+  #wheelPolys{ transform-origin:200px 200px; transform:scale(0.35); opacity:0; transition:transform 1s cubic-bezier(.16,1,.3,1) .1s, opacity .8s ease .1s; }
+  .wheel-section.in-view #wheelPolys{ transform:scale(1); opacity:1; }
   .wheel-chips{ display:flex; flex-direction:column; gap:10px; }
   .wheel-chip{ display:flex; align-items:center; gap:12px; padding:12px 16px; border:1px solid var(--border-soft); border-radius:30px; font-size:14px; color:var(--ink-soft); transition:border-color .25s ease, background .25s ease, transform .15s ease; user-select:none; cursor:pointer; }
   .wheel-chip:hover{ border-color:var(--border-strong, #b7ae9c); }
@@ -359,14 +381,21 @@
   .btn-outline{ display:inline-block; border:1px solid var(--ink); color:var(--ink); padding:13px 34px; font-size:13px; letter-spacing:0.1em; border-radius:30px; transition:all .35s ease; }
   .btn-outline:hover{ background:var(--ink); color:var(--cream); }
 
-  .testimonial{ text-align:center; padding:60px 0 120px; position:relative; }
-  .t-avatar{ width:52px; height:52px; border-radius:50%; background:var(--mauve-pale); color:var(--mauve-deep); display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-family:'Playfair Display', serif; font-size:19px; font-weight:600; transition:opacity .5s ease; }
-  .testimonial .quote-mark{ font-family:'Playfair Display', serif; font-size:90px; color:var(--mauve); opacity:0.5; line-height:1; margin-bottom:-10px; }
-  .t-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:25px; max-width:660px; margin:0 auto 26px; color:var(--ink); min-height:100px; transition:opacity .6s ease; }
-  .t-name{font-size:13px; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:30px;}
-  .t-dots{display:flex; gap:10px; justify-content:center;}
-  .t-dot{width:6px; height:6px; border-radius:50%; background:rgba(18,18,18,0.2); transition:background .3s ease;}
-  .t-dot.active{background:var(--mauve-deep);}
+  .testimonial{ text-align:center; padding:60px 0 100px; position:relative; }
+  .testimonial .eyebrow{ display:block; margin-bottom:36px; }
+  /* horizontal card wall — several real reviews visible/peeking at once instead
+     of one quote at a time, snaps to center on scroll or drag */
+  .t-track{ display:flex; gap:24px; overflow-x:auto; scroll-snap-type:x mandatory; padding:6px 7vw 26px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  .t-track::-webkit-scrollbar{ display:none; }
+  .t-card{ flex:0 0 min(540px,88vw); scroll-snap-align:center; background:#fff; border:1px solid var(--border-soft); border-radius:16px; padding:38px 34px; text-align:left; }
+  .t-card .quote-mark{ font-family:'Playfair Display', serif; font-size:52px; color:var(--mauve); opacity:0.5; line-height:1; display:block; margin-bottom:6px; }
+  .t-card .t-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:18px; color:var(--ink); margin-bottom:24px; line-height:1.7; }
+  .t-card .t-foot{ display:flex; align-items:center; gap:12px; }
+  .t-card .t-avatar{ width:44px; height:44px; flex-shrink:0; border-radius:50%; background:var(--mauve-pale); color:var(--mauve-deep); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display', serif; font-size:16px; font-weight:600; }
+  .t-card .t-name{ font-size:13px; letter-spacing:0.06em; color:var(--ink-soft); }
+  .t-dots{ display:flex; gap:10px; justify-content:center; }
+  .t-dot{ width:6px; height:6px; border-radius:50%; background:rgba(18,18,18,0.2); border:none; padding:0; cursor:pointer; transition:background .3s ease, transform .3s ease; }
+  .t-dot.active{ background:var(--mauve-deep); transform:scale(1.35); }
 
   .journal{ padding:0 0 120px; }
   .journal h2{font-size:30px; color:var(--ink); text-align:center; margin-bottom:10px;}
@@ -414,7 +443,11 @@
     .deep-flavor, .deep-foot{justify-content:center;}
     .deep-specs{text-align:left; max-width:280px; margin-left:auto; margin-right:auto;}
     .wheel-layout{grid-template-columns:1fr;}
-    .j-grid{grid-template-columns:1fr;}
+    /* card wall on mobile too: swipe through the 3 featured articles instead of
+       stacking them full-height one after another */
+    .j-grid{ display:flex; grid-template-columns:none; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory; padding:4px 7vw 10px; margin:0 -40px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+    .j-grid::-webkit-scrollbar{ display:none; }
+    .j-card{ flex:0 0 82vw; scroll-snap-align:center; }
     .foot-grid{grid-template-columns:1fr; gap:36px;}
     nav{ padding:14px 18px; }
     nav.scrolled{ padding:10px 18px; }
@@ -466,7 +499,27 @@
 </head>
 <body>
 
-<div class="bg-fixed" aria-hidden="true"><img src="assets/lineup-float.jpeg" alt=""></div>
+<div class="intro-veil" id="introVeil" aria-hidden="true"><div class="intro-mark"><img src="assets/logo-icon.webp" alt=""></div></div>
+<script>
+(function(){
+  var veil = document.getElementById('introVeil');
+  if(!veil) return;
+  try{
+    var seen = sessionStorage.getItem('bondeo_intro_shown') === '1';
+    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(seen || reduced){ veil.parentNode.removeChild(veil); return; }
+    sessionStorage.setItem('bondeo_intro_shown', '1');
+  } catch(e){}
+  function dismiss(){
+    veil.classList.add('hide');
+    setTimeout(function(){ if(veil.parentNode){ veil.parentNode.removeChild(veil); } }, 550);
+  }
+  var t = setTimeout(dismiss, 900);
+  veil.addEventListener('click', function(){ clearTimeout(t); dismiss(); });
+})();
+</script>
+
+<div class="bg-fixed" aria-hidden="true"><img src="assets/lineup-float.webp" alt=""></div>
 
 <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -515,7 +568,7 @@
 </div>
 
 <section class="hero" id="heroSection">
-  <div class="hero-img-wrap"><img class="hero-img" id="heroImg" src="assets/lineup-float.jpeg" alt="磅茶 Bondeo 全系列茶罐"></div>
+  <div class="hero-img-wrap"><img class="hero-img" id="heroImg" src="assets/lineup-float.webp" alt="磅茶 Bondeo 全系列茶罐" fetchpriority="high"></div>
   <div class="hero-edge-fade"></div>
   <div class="hero-scrim"></div>
   <div class="hero-spotlight" id="heroSpotlight"></div>
@@ -576,7 +629,7 @@
         <p data-i18n="pillar4_p">從源頭支持友善土地的茶園，摒棄過度包裝，把永續化為日常實踐。</p>
       </div>
     </div>
-    <div class="story-banner"><img src="assets/lineup-wide-tight.jpeg" alt="磅茶 Bondeo 全系列茶罐" loading="lazy"></div>
+    <div class="story-banner"><img src="assets/lineup-wide-tight.webp" alt="磅茶 Bondeo 全系列茶罐" loading="lazy"></div>
     <div class="counters">
       <div class="counter-item reveal"><div class="num" data-target="100" data-suffix="%">0%</div><div class="label" data-i18n="counter1_label">原葉精華</div></div>
       <div class="counter-item reveal"><div class="num" data-target="0" data-suffix="%">0%</div><div class="label" data-i18n="counter2_label">化學添加</div></div>
@@ -602,7 +655,7 @@
     <div class="deep-bg"><div class="blob" id="deepBlob"></div></div>
     <span class="eyebrow deep-eyebrow" data-i18n="deepdive_eyebrow">Tasting Notes · 系列鑑賞</span>
     <div class="deep-grid">
-      <div class="deep-media"><div class="deep-frame"><img id="deepImg" src="assets/sijichun.jpeg" alt="四季春" loading="lazy"></div></div>
+      <div class="deep-media"><div class="deep-frame"><img id="deepImg" src="assets/sijichun.webp" alt="四季春" loading="lazy"><button class="tea-hotspot" type="button" aria-label="了解磅茶名稱由來" aria-expanded="false"><span class="dot"></span></button><div class="tea-hotspot-card"><p data-i18n="hotspot_note">「磅茶喔！（Bon De O）」台語，是放下壓力、釋放身心的代名詞。</p><a href="#origin" data-i18n="hotspot_link">了解品牌故事 →</a></div></div></div>
       <div class="deep-info">
         <div class="deep-no" id="deepNo">No.01</div>
         <h2 class="deep-title" id="deepTitle">四季春</h2>
@@ -764,11 +817,11 @@
       <div class="corp-gallery">
         <div class="corp-gallery-label" data-i18n="corp_gallery_label">真實客製化案例・喜慶婚禮訂製茶禮</div>
         <div class="corp-gallery-grid">
-          <img src="assets/corp-case1.jpg" alt="客製化錦盒包裝：台灣頂級蜜香烏龍紅茶禮盒" loading="lazy">
-          <img src="assets/corp-case2.jpg" alt="客製化茶罐與紅色標籤細節：頂級梨山烏龍紅茶" loading="lazy">
-          <img src="assets/corp-case3.jpg" alt="客製化錦盒禮盒外觀" loading="lazy">
-          <img src="assets/corp-case4.jpg" alt="囍字客製化貼紙三角立體茶包，婚禮小物訂製" loading="lazy">
-          <img src="assets/corp-case5.jpg" alt="囍字客製化茶包手持特寫" loading="lazy">
+          <img src="assets/corp-case1.webp" alt="客製化錦盒包裝：台灣頂級蜜香烏龍紅茶禮盒" loading="lazy">
+          <img src="assets/corp-case2.webp" alt="客製化茶罐與紅色標籤細節：頂級梨山烏龍紅茶" loading="lazy">
+          <img src="assets/corp-case3.webp" alt="客製化錦盒禮盒外觀" loading="lazy">
+          <img src="assets/corp-case4.webp" alt="囍字客製化貼紙三角立體茶包，婚禮小物訂製" loading="lazy">
+          <img src="assets/corp-case5.webp" alt="囍字客製化茶包手持特寫" loading="lazy">
         </div>
       </div>
     </div>
@@ -776,18 +829,9 @@
 </section>
 
 <section class="testimonial" id="testimonial">
-  <div class="wrap">
-    <div class="t-avatar" id="t-avatar">林</div>
-    <div class="quote-mark">"</div>
-    <span class="eyebrow" data-i18n="testimonial_eyebrow">茶友真實回饋</span>
-    <div class="t-quote reveal" id="t-quote">「以前買高山茶總是抓不準溫度泡得很澀，但磅茶的梨山茶照著教學泡，真的有天然的蜜桃香，甘甜好喝！」</div>
-    <div class="t-name" id="t-name">—— 台中 林小姐</div>
-    <div class="t-dots">
-      <div class="t-dot active" data-i="0"></div>
-      <div class="t-dot" data-i="1"></div>
-      <div class="t-dot" data-i="2"></div>
-    </div>
-  </div>
+  <div class="wrap"><span class="eyebrow" data-i18n="testimonial_eyebrow">茶友真實回饋</span></div>
+  <div class="t-track reveal" id="tTrack"></div>
+  <div class="t-dots" id="tDots"></div>
 </section>
 
 <section class="journal" id="journal">
@@ -909,6 +953,8 @@
       origin_p1:'磅茶的誕生，源自海拔1700公尺的茶園秘境，採茶姑娘們頂著烈日，小心翼翼地將鮮嫩的茶葉收攏於背簍中，當班長高聲呼喊「磅茶喔！（Bon De O）」，歡笑聲頓時在茶園中散開——那是準備秤重、卸下滿肩重擔的時刻，儘管指尖長滿了繭，她們的臉上卻掛著滿足的笑容。',
       origin_note:'「Bon De O」台語「ㄅㄥˇㄉㄟˊㄛ」，是放下壓力、釋放身心的代名詞。',
       origin_p2:'帶著這份深植於台灣茶山的記憶，傳承三代的磅茶決定蛻變，用貼近現代生活的輕鬆步調，取代傳統茶業的嚴肅。期盼這杯好茶，能成為您忙碌生活中的一個逗號，讓喝茶成為一件輕鬆、快樂且理所當然的事。',
+      hotspot_note:'「磅茶喔！（Bon De O）」台語，是放下壓力、釋放身心的代名詞。',
+      hotspot_link:'了解品牌故事 →',
       pillars_h2:'四大核心理念',
       pillar1_h4:'陪伴每一個日常', pillar1_p:'褪去繁複，透過職人把關確保純粹風味，讓好茶自然融入生活每個角落。',
       pillar2_h4:'輕鬆上手的品茶方式', pillar2_p:'去蕪存菁、口感清爽，簡單步驟就能沖出一壺好茶，反覆回沖依然回甘。',
@@ -975,6 +1021,8 @@
       origin_p1:'Bondeo was born in a secluded tea garden 1,700 meters above sea level. Under the blazing sun, tea-picking women carefully gathered tender leaves into the baskets on their backs. When the team leader called out "Bon De O!" — time to weigh in — laughter would spread through the fields at once. It was the moment to set down the heavy load from their shoulders. Despite their calloused fingertips, their faces carried nothing but quiet satisfaction.',
       origin_note:'"Bon De O" — from the Taiwanese Hokkien phrase for weighing tea — has come to mean letting go of pressure and freeing both body and mind.',
       origin_p2:'Carrying this memory rooted deep in Taiwan\'s tea mountains, Bondeo — now in its third generation — chose to transform: replacing the solemnity of traditional tea-making with a rhythm that fits modern life. We hope this cup becomes a comma in your busy day, making tea-drinking something easy, joyful, and simply natural.',
+      hotspot_note:'"Bon De O!" — Taiwanese Hokkien for letting go of pressure and freeing both body and mind.',
+      hotspot_link:'Read the brand story →',
       pillars_h2:'Four Core Principles',
       pillar1_h4:'A Companion to Everyday Life', pillar1_p:'Stripped of complexity, quality is guaranteed by artisan care, so good tea naturally fits into every corner of life.',
       pillar2_h4:'An Effortless Way to Enjoy Tea', pillar2_p:'Refined and clean-tasting — a few simple steps brew a great pot, with sweetness that lasts through multiple infusions.',
@@ -1041,6 +1089,8 @@
       origin_p1:'磅茶は、標高1700メートルの茶園という秘境で生まれました。強い日差しの下、茶摘みの女性たちは慎重に、瑞々しい茶葉を背負ったかごへと集めていきます。班長が「磅茶喔！（Bon De O）」と声を張り上げると、茶園には笑い声が広がります——それは茶葉の重さを量り、肩の重荷を下ろす瞬間。指先にたこができていても、彼女たちの顔にはいつも満ち足りた笑顔がありました。',
       origin_note:'「Bon De O」は台湾語で茶葉の重さを量る掛け声。転じて、プレッシャーを手放し、心身を解き放つ言葉となりました。',
       origin_p2:'台湾の茶山に深く根ざしたこの記憶を受け継ぎ、三代続く磅茶は変革を選びました。伝統茶業の堅苦しさを、現代の暮らしに寄り添う気軽さへ。この一杯が、忙しい毎日の中の小さな句読点となり、お茶を飲むことがもっと気軽で、楽しく、当たり前のことになりますように。',
+      hotspot_note:'「磅茶喔！（Bon De O）」台湾語で、プレッシャーを手放し心身を解き放つという意味です。',
+      hotspot_link:'ブランドストーリーを見る →',
       pillars_h2:'4つのコアバリュー',
       pillar1_h4:'日常に寄り添う', pillar1_p:'複雑さを手放し、職人による厳選で純粋な風味を守る。良いお茶が自然と生活のあらゆる場面に溶け込みます。',
       pillar2_h4:'気軽に楽しめる飲み方', pillar2_p:'雑味を取り除いたすっきりとした味わい。簡単な手順で美味しい一杯が淹れられ、何煎も甘みが続きます。',
@@ -1095,12 +1145,12 @@
   };
 
   var BASE_PRODUCTS = [
-    { no:'No.01', img:'assets/sijichun.jpeg', price:'NT$ 450 起', color:'#CBD3C3', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no1-four-seasons-tea', blob:'radial-gradient(circle, #E5E9E1, transparent 70%)' },
-    { no:'No.02', img:'assets/jinxuan.jpeg', price:'NT$ 550 起', color:'#A8AE8E', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no2-jin-xuan-milk-oolong', blob:'radial-gradient(circle, #D3D6C6, transparent 70%)' },
-    { no:'No.03', img:'assets/lishan.jpeg', price:'NT$ 850 起', color:'#8E9A72', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no3-lishan-high-mountain-tea', blob:'radial-gradient(circle, #C6CCB8, transparent 70%)' },
+    { no:'No.01', img:'assets/sijichun.webp', price:'NT$ 450 起', color:'#CBD3C3', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no1-four-seasons-tea', blob:'radial-gradient(circle, #E5E9E1, transparent 70%)' },
+    { no:'No.02', img:'assets/jinxuan.webp', price:'NT$ 550 起', color:'#A8AE8E', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no2-jin-xuan-milk-oolong', blob:'radial-gradient(circle, #D3D6C6, transparent 70%)' },
+    { no:'No.03', img:'assets/lishan.webp', price:'NT$ 850 起', color:'#8E9A72', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no3-lishan-high-mountain-tea', blob:'radial-gradient(circle, #C6CCB8, transparent 70%)' },
     { no:'No.04', img:'https://cdn.store-assets.com/s/1434862/i/104353945.webp', price:'NT$ 650 起', color:'#C9B8C0', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no4-osmanthus-oolong-tea', blob:'radial-gradient(circle, #E4DBDF, transparent 70%)' },
     { no:'No.05', img:'https://cdn.store-assets.com/s/1434862/i/104354047.webp', price:'NT$ 650 起', color:'#C79CA0', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no5-honey-black-tea', blob:'radial-gradient(circle, #E3CDCF, transparent 70%)' },
-    { no:'No.06', img:'assets/hongyu.jpeg', price:'NT$ 550 起', color:'#BC8285', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no6-ruby-black-tea-ttes18', blob:'radial-gradient(circle, #DDC0C2, transparent 70%)' }
+    { no:'No.06', img:'assets/hongyu.webp', price:'NT$ 550 起', color:'#BC8285', cta:'https://www.bondeo.com.tw/collections/lifestyle-tea/products/no6-ruby-black-tea-ttes18', blob:'radial-gradient(circle, #DDC0C2, transparent 70%)' }
   ];
 
   var PRODUCTS_I18N = {
@@ -1280,21 +1330,35 @@
     } catch(e){ console.warn('quick-buy init failed', e); }
   })();
 
-  /* --- hero parallax --- */
+  /* --- hero parallax (mouse tilt + gentle scroll depth, combined into one transform) --- */
   (function(){
     try{
       var heroImg = document.getElementById('heroImg');
       var heroSection = document.getElementById('heroSection');
       var heroSpotlight = document.getElementById('heroSpotlight');
+      var mx = 0, my = 0;
+      function apply(){
+        heroImg.style.transform = 'translate(' + (mx*-18) + 'px,' + (my*-18 + heroScrollY) + 'px) scale(1.08)';
+      }
       heroSection.addEventListener('mousemove', function(e){
         var r = heroSection.getBoundingClientRect();
-        var px = (e.clientX - r.left)/r.width - 0.5;
-        var py = (e.clientY - r.top)/r.height - 0.5;
-        heroImg.style.transform = 'translate(' + (px*-18) + 'px,' + (py*-18) + 'px) scale(1.08)';
+        mx = (e.clientX - r.left)/r.width - 0.5;
+        my = (e.clientY - r.top)/r.height - 0.5;
+        apply();
         if(heroSpotlight){
-          heroSpotlight.style.setProperty('--sx', ((px+0.5)*100).toFixed(1) + '%');
-          heroSpotlight.style.setProperty('--sy', ((py+0.5)*100).toFixed(1) + '%');
+          heroSpotlight.style.setProperty('--sx', ((mx+0.5)*100).toFixed(1) + '%');
+          heroSpotlight.style.setProperty('--sy', ((my+0.5)*100).toFixed(1) + '%');
         }
+      });
+      /* subtle cinematic depth: the image drifts slightly slower than the page as
+         you scroll past the hero — deliberately capped very low so it never
+         reveals the image's edge (it only has ~4% overscan to work with) */
+      var heroScrollY = 0;
+      window.__registerScroll(function(){
+        var rect = heroSection.getBoundingClientRect();
+        if(rect.bottom < 0 || rect.top > window.innerHeight){ return; }
+        heroScrollY = Math.min(Math.max(0, -rect.top) * 0.15, 22);
+        apply();
       });
     } catch(e){ console.warn('hero parallax failed', e); }
   })();
@@ -1489,10 +1553,14 @@
       var deepMobileListEl = document.getElementById('deepMobileList');
       function renderDeepMobileList(){
         if(!deepMobileListEl) return;
+        var hs = (I18N[currentLang] || I18N.zh);
         deepMobileListEl.innerHTML = products.map(function(p){
           return '' +
             '<div class="dm-card">' +
-              '<div class="dm-card-frame"><img src="'+p.img+'" alt="'+p.title+'" loading="lazy"></div>' +
+              '<div class="dm-card-frame"><img src="'+p.img+'" alt="'+p.title+'" loading="lazy">' +
+                '<button class="tea-hotspot" type="button" aria-label="了解磅茶名稱由來" aria-expanded="false"><span class="dot"></span></button>' +
+                '<div class="tea-hotspot-card"><p>'+hs.hotspot_note+'</p><a href="#origin">'+hs.hotspot_link+'</a></div>' +
+              '</div>' +
               '<div class="dm-card-no">'+p.no+'</div>' +
               '<h3>'+p.title+'</h3>' +
               '<div class="dm-card-flavor">'+p.flavor.map(function(f){ return '<span>'+f+'</span>'; }).join('')+'</div>' +
@@ -1532,6 +1600,29 @@
         });
       }
     } catch(e){ console.warn('deep-dive init failed', e); }
+  })();
+
+  /* --- product photo hotspots (isolated, event-delegated so it works for both
+     the desktop pinned frame and every dynamically-generated mobile card) --- */
+  (function(){
+    try{
+      function closeAll(){
+        document.querySelectorAll('.tea-hotspot-card.open').forEach(function(c){ c.classList.remove('open'); });
+        document.querySelectorAll('.tea-hotspot[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
+      }
+      document.addEventListener('click', function(e){
+        var btn = e.target.closest ? e.target.closest('.tea-hotspot') : null;
+        if(btn){
+          var card = btn.nextElementSibling;
+          var willOpen = card && !card.classList.contains('open');
+          closeAll();
+          if(willOpen && card){ card.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+          e.stopPropagation();
+        } else if(!e.target.closest || !e.target.closest('.tea-hotspot-card')){
+          closeAll();
+        }
+      });
+    } catch(e){ console.warn('tea hotspot init failed', e); }
   })();
 
   /* --- scroll parallax on origin & story images (isolated) --- */
@@ -1607,15 +1698,25 @@
       }
 
       function renderPolys(){
-        polysG.innerHTML = '';
-        WHEEL_SCORES.forEach(function(w, wi){
-          var pts = w.scores.map(function(s,i){ return pointFor(i, (s/3)*maxR).join(','); }).join(' ');
-          var poly = document.createElementNS(svgNS,'polygon');
-          poly.setAttribute('points', pts);
-          poly.setAttribute('class', 'wheel-poly' + (activeSet.indexOf(wi)>-1 ? ' active' : ''));
-          poly.setAttribute('fill', w.color);
-          poly.setAttribute('stroke', w.color);
-          polysG.appendChild(poly);
+        /* build each polygon once and keep the same DOM node around — toggling
+           only the 'active' class (instead of tearing down/rebuilding every
+           click) is what actually lets the CSS opacity transition play instead
+           of popping instantly */
+        if(!polysG.childElementCount){
+          WHEEL_SCORES.forEach(function(w, wi){
+            var pts = w.scores.map(function(s,i){ return pointFor(i, (s/3)*maxR).join(','); }).join(' ');
+            var poly = document.createElementNS(svgNS,'polygon');
+            poly.setAttribute('points', pts);
+            poly.setAttribute('fill', w.color);
+            poly.setAttribute('stroke', w.color);
+            poly.setAttribute('class', 'wheel-poly');
+            poly.dataset.wi = wi;
+            polysG.appendChild(poly);
+          });
+        }
+        Array.prototype.forEach.call(polysG.children, function(poly){
+          var wi = +poly.dataset.wi;
+          poly.classList.toggle('active', activeSet.indexOf(wi) > -1);
         });
       }
 
@@ -1655,59 +1756,54 @@
     } catch(e){ console.warn('flavor wheel init failed', e); }
   })();
 
-  /* --- testimonial rotation (isolated, locale-aware) --- */
+  /* --- testimonial card wall (isolated, locale-aware) ---
+     several real reviews sit side by side in a snap-scrolling track instead of
+     a single quote fading in and out — native touch scroll on mobile, dots
+     (or drag) on desktop, no custom swipe-detection code needed */
   (function(){
     try{
-      var qEl = document.getElementById('t-quote');
-      var nEl = document.getElementById('t-name');
-      var aEl = document.getElementById('t-avatar');
-      var dots = document.querySelectorAll('.t-dot');
-      var tIdx = 0;
-      var tTimer = null;
+      var track = document.getElementById('tTrack');
+      var dotsWrap = document.getElementById('tDots');
+      if(!track || !dotsWrap) return;
       function currentQuotes(){ return TESTIMONIALS_I18N[currentLang] || TESTIMONIALS_I18N.zh; }
-      function showQuote(i, skipFade){
-        tIdx = i;
+      function cardStep(){
+        var first = track.querySelector('.t-card');
+        return first ? (first.getBoundingClientRect().width + 24) : track.clientWidth;
+      }
+      function updateActiveFromScroll(){
+        var i = Math.round(track.scrollLeft / cardStep());
+        dotsWrap.querySelectorAll('.t-dot').forEach(function(d,di){ d.classList.toggle('active', di===i); });
+      }
+      function bindDots(){
+        dotsWrap.querySelectorAll('.t-dot').forEach(function(d){
+          d.addEventListener('click', function(){
+            track.scrollTo({ left: (+d.dataset.i) * cardStep(), behavior:'smooth' });
+          });
+        });
+      }
+      function render(){
         var quotes = currentQuotes();
-        if(skipFade){
-          qEl.textContent = quotes[i].q; nEl.textContent = quotes[i].n; if(aEl) aEl.textContent = quotes[i].a || '';
-        } else {
-          qEl.style.opacity = 0;
-          if(aEl) aEl.style.opacity = 0;
-          setTimeout(function(){
-            qEl.textContent = quotes[i].q; nEl.textContent = quotes[i].n; qEl.style.opacity = 1;
-            if(aEl){ aEl.textContent = quotes[i].a || ''; aEl.style.opacity = 1; }
-          }, 300);
-        }
-        dots.forEach(function(d,di){ d.classList.toggle('active', di===i); });
+        track.innerHTML = quotes.map(function(t){
+          return '<div class="t-card">' +
+            '<span class="quote-mark">"</span>' +
+            '<div class="t-quote">' + t.q + '</div>' +
+            '<div class="t-foot"><div class="t-avatar">' + (t.a || '') + '</div><div class="t-name">' + t.n + '</div></div>' +
+          '</div>';
+        }).join('');
+        dotsWrap.innerHTML = quotes.map(function(_, i){
+          return '<button class="t-dot' + (i === 0 ? ' active' : '') + '" type="button" aria-label="第 ' + (i+1) + ' 則評論" data-i="' + i + '"></button>';
+        }).join('');
+        bindDots();
+        track.scrollLeft = 0;
+        updateActiveFromScroll();
       }
-      function startAuto(){
-        if(tTimer) clearInterval(tTimer);
-        tTimer = setInterval(function(){ showQuote((tIdx+1) % currentQuotes().length); }, 5500);
-      }
-      dots.forEach(function(d,di){
-        d.style.cursor = 'pointer';
-        d.addEventListener('click', function(){ showQuote(di); startAuto(); });
-      });
-      var testimonialSection = document.getElementById('testimonial');
-      if(testimonialSection){
-        testimonialSection.addEventListener('mouseenter', function(){ if(tTimer) clearInterval(tTimer); });
-        testimonialSection.addEventListener('mouseleave', function(){ startAuto(); });
-        var touchStartX = null;
-        testimonialSection.addEventListener('touchstart', function(e){ touchStartX = e.touches[0].clientX; }, {passive:true});
-        testimonialSection.addEventListener('touchend', function(e){
-          if(touchStartX == null) return;
-          var dx = e.changedTouches[0].clientX - touchStartX;
-          if(Math.abs(dx) > 40){
-            var n = currentQuotes().length;
-            var next = dx < 0 ? (tIdx+1) % n : (tIdx-1+n) % n;
-            showQuote(next); startAuto();
-          }
-          touchStartX = null;
-        }, {passive:true});
-      }
-      showQuote(0, true);
-      startAuto();
-      window.__rerenderTestimonial = function(){ showQuote(tIdx, true); };
+      var scrollTimer = null;
+      track.addEventListener('scroll', function(){
+        if(scrollTimer) clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(updateActiveFromScroll, 80);
+      }, {passive:true});
+      render();
+      window.__rerenderTestimonial = render;
     } catch(e){ console.warn('testimonial init failed', e); }
   })();
 
