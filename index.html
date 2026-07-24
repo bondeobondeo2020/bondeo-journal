@@ -83,15 +83,45 @@
 <link rel="preload" as="image" href="assets/lineup-float.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-QN001KQF1R"></script>
+<!-- trimmed to only the weights/styles actually used in the CSS below (previously
+     loaded Noto 900, Playfair 500/700 + italic 500/600, and Poppins 500 — none of
+     which any rule references), and loaded as non-render-blocking: the stylesheet
+     applies once fetched instead of holding up the very first paint -->
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@400;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@400;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@400;600&display=swap" rel="stylesheet"></noscript>
 <script>
+  /* gtag() just queues into dataLayer regardless of whether the GTM script has
+     actually loaded yet, so it's safe to call these immediately — but we hold
+     off actually FETCHING the ~160KB gtag.js file until the visitor does
+     something (scroll/touch/click) or a short timeout passes, so it never
+     competes with the page's own first-paint resources. A passive reader who
+     never interacts still gets tracked after the timeout, so no visits are lost. */
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
   gtag('js', new Date());
   gtag('config', 'G-QN001KQF1R', {
     linker: { domains: ['bondeo.com.tw', 'www.bondeo.com.tw', 'journal.bondeo.com.tw'] }
   });
+  (function(){
+    var loaded = false;
+    function loadGTM(){
+      if(loaded) return;
+      loaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-QN001KQF1R';
+      document.head.appendChild(s);
+      ['scroll','touchstart','mousemove','keydown'].forEach(function(evt){
+        window.removeEventListener(evt, loadGTM, {passive:true});
+      });
+      clearTimeout(fallback);
+    }
+    ['scroll','touchstart','mousemove','keydown'].forEach(function(evt){
+      window.addEventListener(evt, loadGTM, {passive:true, once:true});
+    });
+    var fallback = setTimeout(loadGTM, 4000);
+  })();
 </script>
 <style>
   :root{
@@ -488,7 +518,7 @@
 </head>
 <body>
 
-<div class="intro-veil" id="introVeil" aria-hidden="true"><div class="intro-mark"><img src="assets/logo-icon.webp" alt=""></div></div>
+<div class="intro-veil" id="introVeil" aria-hidden="true"><div class="intro-mark"><img src="assets/logo-icon.webp" alt="" width="127" height="130"></div></div>
 <script>
 (function(){
   var veil = document.getElementById('introVeil');
@@ -521,7 +551,7 @@
 <a class="quick-buy" id="quickBuy" href="https://www.bondeo.com.tw/collections/lifestyle-tea" target="_blank" rel="noopener" data-i18n="quickbuy">前往選購 →</a>
 
 <nav id="nav">
-  <a class="logo-mark" href="#" aria-label="回到首頁"><img src="assets/logo-icon.webp" alt=""><img class="logo-word" src="assets/logo-wordmark.webp" alt="磅茶"><img class="logo-word-en" src="assets/logo-bondeo-en.webp" alt="Bon De O"></a>
+  <a class="logo-mark" href="#" aria-label="回到首頁"><img src="assets/logo-icon.webp" alt="" width="127" height="130"><img class="logo-word" src="assets/logo-wordmark.webp" alt="磅茶" width="158" height="100"><img class="logo-word-en" src="assets/logo-bondeo-en.webp" alt="Bon De O" width="244" height="48"></a>
   <div class="nav-links" id="navLinks">
     <a href="#story" data-i18n="nav_story">品牌故事</a>
     <a href="#deepdive" data-i18n="nav_deepdive">系列鑑賞</a>
@@ -581,7 +611,7 @@
 
 <section class="origin" id="origin">
   <div class="wrap">
-    <div class="origin-media reveal"><img src="https://cdn.store-assets.com/s/1434862/f/17070663.jpeg" alt="磅茶由來 茶園採茶" loading="lazy"></div>
+    <div class="origin-media reveal"><img src="assets/origin-tea-garden.webp" alt="磅茶由來 茶園採茶" loading="lazy" width="1200" height="900"></div>
     <div class="origin-text reveal">
       <span class="eyebrow" data-i18n="origin_eyebrow">磅茶由來</span>
       <h3 data-i18n="origin_h3">「磅茶喔！」<br>一句放下重擔的呼喊</h3>
@@ -1584,14 +1614,21 @@
   /* --- scroll parallax on origin & story images (isolated) --- */
   (function(){
     try{
-      var parallaxImgs = document.querySelectorAll('.origin-media img, .story-banner img');
+      var parallaxImgs = Array.prototype.slice.call(document.querySelectorAll('.origin-media img, .story-banner img'));
       if(!parallaxImgs.length) return;
       function updateParallax(){
-        parallaxImgs.forEach(function(img){
+        /* read every element's geometry first, THEN write all the transforms —
+           interleaving read/write per element in one loop forces the browser to
+           flush layout on every single iteration (this was the biggest forced-
+           reflow contributor flagged by PageSpeed); batching into two passes
+           lets it compute layout once for the whole group */
+        var offsets = parallaxImgs.map(function(img){
           var r = img.parentElement.getBoundingClientRect();
           var center = (r.top + r.height/2) - window.innerHeight/2;
-          var offset = center * -0.06;
-          img.style.transform = 'translateY(' + offset.toFixed(1) + 'px) scale(1.15)';
+          return center * -0.06;
+        });
+        parallaxImgs.forEach(function(img, i){
+          img.style.transform = 'translateY(' + offsets[i].toFixed(1) + 'px) scale(1.15)';
         });
       }
       window.__registerScroll(updateParallax);
