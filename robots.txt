@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://journal.bondeo.com.tw/sitemap.xml

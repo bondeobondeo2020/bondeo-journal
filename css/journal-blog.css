@@ -1,0 +1,114 @@
+/* journal.bondeo.com.tw 部落格區（/blog/、/articles/）樣式
+   配色與字體沿用「Bondeo一頁式網站」品牌視覺規範，跟首頁維持一致質感 */
+:root{
+  --cream:#F5EDE1; --ink:#121212; --ink-soft:#5B534C;
+  --sage:#8DA37E; --sage-deep:#5F7350; --sage-pale:#E4EADD;
+  --mauve:#C99BA0; --mauve-deep:#A5646C; --mauve-pale:#F3E2E1;
+  --amber:#C68A3D; --tea-brown:#7A5230; --border-soft:rgba(18,18,18,0.12);
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:'Noto Sans TC', sans-serif;
+  font-weight:400;
+  line-height:1.9;
+}
+a{color:inherit; text-decoration:none;}
+h1,h2,h3{font-family:'Noto Sans TC', sans-serif; font-weight:700; letter-spacing:0.01em;}
+.site-header{
+  padding:24px 40px;
+  border-bottom:1px solid var(--border-soft);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.site-header .logo{
+  font-size:20px;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+.site-header nav{display:flex; gap:28px; font-size:14px;}
+.site-header nav a:hover{color:var(--amber);}
+.site-footer{
+  padding:40px;
+  color:var(--ink-soft);
+  font-size:12px;
+  text-align:center;
+  border-top:1px solid var(--border-soft);
+  margin-top:60px;
+}
+.index-page, .article-page{
+  max-width:760px;
+  margin:0 auto;
+  padding:48px 24px;
+}
+.index-page h1{font-size:30px; margin-bottom:32px;}
+.card-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:24px;}
+.card{
+  display:block;
+  padding:24px;
+  background:#fff;
+  border:1px solid var(--border-soft);
+  border-radius:12px;
+  transition:border-color .3s ease, transform .3s ease;
+}
+.card:hover{border-color:var(--amber); transform:translateY(-2px);}
+.card-date{font-size:12px; color:var(--ink-soft); letter-spacing:.05em;}
+.card h2{font-size:18px; margin:10px 0; color:var(--ink);}
+.card p{font-size:14px; color:var(--ink-soft); margin:0;}
+.breadcrumb{font-size:13px; color:var(--ink-soft); margin-bottom:20px;}
+.breadcrumb a:hover{color:var(--amber);}
+.article-page h1{font-size:28px; margin-bottom:10px; font-weight:700;}
+.article-page time{font-size:13px; color:var(--ink-soft);}
+.cover-image{width:100%; border-radius:12px; margin-bottom:22px; display:block;}
+.article-meta{font-size:13px; color:var(--ink-soft);}
+.article-meta .dot{margin:0 8px;}
+.tags{margin:16px 0;}
+.tag{
+  display:inline-block;
+  background:var(--sage-pale);
+  color:var(--sage-deep);
+  font-size:12px;
+  padding:4px 14px;
+  border-radius:99px;
+  margin-right:8px;
+  margin-bottom:8px;
+  font-family:'Playfair Display', serif;
+  font-style:italic;
+}
+.card .tags{margin:12px 0 0;}
+.toc{
+  background:#fff;
+  border:1px solid var(--border-soft);
+  border-radius:12px;
+  padding:18px 24px;
+  margin:26px 0;
+  font-size:14px;
+}
+.toc-title{font-weight:700; margin-bottom:8px; color:var(--ink);}
+.toc ol{margin:0; padding-left:20px;}
+.toc a{color:var(--tea-brown);}
+.article-content{margin-top:30px; font-size:16px;}
+.article-content h2{font-size:20px; color:var(--tea-brown); margin:34px 0 14px; font-weight:700;}
+.article-content blockquote{
+  border-left:3px solid var(--amber);
+  margin:22px 0;
+  padding:12px 22px;
+  background:var(--mauve-pale);
+  font-style:italic;
+  color:var(--ink-soft);
+}
+.article-content hr{border:none; border-top:1px solid var(--border-soft); margin:34px 0;}
+.related-section{margin-top:60px; border-top:1px solid var(--border-soft); padding-top:30px;}
+.related-title{font-size:20px; color:var(--tea-brown); margin:0 0 18px; font-weight:700;}
+.related-grid{grid-template-columns:repeat(3, 1fr);}
+.related-grid .card{padding:16px;}
+.related-grid h3{font-size:15px; margin:6px 0 0; color:var(--ink);}
+.back-link{margin-top:52px; font-size:14px;}
+.back-link a:hover{color:var(--amber);}
+@media (max-width: 640px){
+  .related-grid{grid-template-columns:1fr;}
+  .site-header{padding:18px 20px;}
+}
