@@ -307,17 +307,6 @@
   .deep-media{ display:flex; align-items:center; justify-content:center; }
   .deep-frame{ width:360px; height:440px; border-radius:4px; overflow:hidden; background:var(--sage-pale); position:relative; transition:transform .5s var(--ease-luxury); transform-style:preserve-3d; will-change:transform; }
   .deep-frame img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .08s linear; will-change:transform; }
-
-  /* interactive hotspot: a small pulsing dot on the product photo that opens a
-     short brand-story note in place, instead of the photo being purely decorative */
-  .tea-hotspot{ position:absolute; top:40%; left:50%; transform:translate(-50%,-50%); width:30px; height:30px; border:none; background:none; padding:0; cursor:pointer; z-index:4; display:flex; align-items:center; justify-content:center; }
-  .tea-hotspot .dot{ position:relative; display:block; width:11px; height:11px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,0.25); }
-  .tea-hotspot .dot::after{ content:''; position:absolute; inset:0; border-radius:50%; background:#fff; animation:hotspotPulse 2.4s ease-in-out infinite; }
-  @keyframes hotspotPulse{ 0%{box-shadow:0 0 0 0 rgba(255,255,255,0.55);} 70%{box-shadow:0 0 0 16px rgba(255,255,255,0);} 100%{box-shadow:0 0 0 0 rgba(255,255,255,0);} }
-  .tea-hotspot-card{ position:absolute; left:10px; right:10px; bottom:10px; background:rgba(18,16,14,0.85); backdrop-filter:blur(4px); border-radius:10px; padding:14px 16px; opacity:0; transform:translateY(8px); pointer-events:none; transition:opacity .25s ease, transform .25s ease; z-index:5; text-align:left; }
-  .tea-hotspot-card.open{ opacity:1; transform:translateY(0); pointer-events:auto; }
-  .tea-hotspot-card p{ font-size:12.5px; color:rgba(255,255,255,0.92); line-height:1.65; margin-bottom:8px; }
-  .tea-hotspot-card a{ font-size:11.5px; color:#fff; text-decoration:underline; text-underline-offset:3px; }
   .deep-no{ font-family:'Playfair Display', serif; font-style:italic; color:var(--mauve-deep); font-size:16px; letter-spacing:0.12em; margin-bottom:10px; opacity:0; transition:opacity .5s ease; }
   .deep-title{ font-size:32px; color:var(--ink); margin-bottom:16px; opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease; }
   .deep-flavor{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
@@ -336,7 +325,7 @@
   /* mobile: replace pinned 620vh scroll-jack with a normal scrollable list (avoids trapping users in a long swipe-through) */
   .deep-mobile-list{ display:none; }
   .dm-card{ background:#fff; border-radius:12px; padding:28px 24px; margin:0 20px 20px; box-shadow:0 2px 14px rgba(18,18,18,0.06); }
-  .dm-card-frame{ position:relative; width:100%; aspect-ratio:4/3; border-radius:8px; overflow:hidden; margin-bottom:18px; background:var(--sage-pale); }
+  .dm-card-frame{ width:100%; aspect-ratio:4/3; border-radius:8px; overflow:hidden; margin-bottom:18px; background:var(--sage-pale); }
   .dm-card-frame img{ width:100%; height:100%; object-fit:cover; }
   .dm-card-no{ font-family:'Playfair Display', serif; font-style:italic; color:var(--mauve-deep); font-size:14px; letter-spacing:0.1em; margin-bottom:6px; }
   .dm-card h3{ font-size:22px; color:var(--ink); margin-bottom:12px; }
@@ -655,7 +644,7 @@
     <div class="deep-bg"><div class="blob" id="deepBlob"></div></div>
     <span class="eyebrow deep-eyebrow" data-i18n="deepdive_eyebrow">Tasting Notes · 系列鑑賞</span>
     <div class="deep-grid">
-      <div class="deep-media"><div class="deep-frame"><img id="deepImg" src="assets/sijichun.webp" alt="四季春" loading="lazy"><button class="tea-hotspot" type="button" aria-label="了解磅茶名稱由來" aria-expanded="false"><span class="dot"></span></button><div class="tea-hotspot-card"><p data-i18n="hotspot_note">「磅茶喔！（Bon De O）」台語，是放下壓力、釋放身心的代名詞。</p><a href="#origin" data-i18n="hotspot_link">了解品牌故事 →</a></div></div></div>
+      <div class="deep-media"><div class="deep-frame"><img id="deepImg" src="assets/sijichun.webp" alt="四季春" loading="lazy"></div></div>
       <div class="deep-info">
         <div class="deep-no" id="deepNo">No.01</div>
         <h2 class="deep-title" id="deepTitle">四季春</h2>
@@ -953,8 +942,6 @@
       origin_p1:'磅茶的誕生，源自海拔1700公尺的茶園秘境，採茶姑娘們頂著烈日，小心翼翼地將鮮嫩的茶葉收攏於背簍中，當班長高聲呼喊「磅茶喔！（Bon De O）」，歡笑聲頓時在茶園中散開——那是準備秤重、卸下滿肩重擔的時刻，儘管指尖長滿了繭，她們的臉上卻掛著滿足的笑容。',
       origin_note:'「Bon De O」台語「ㄅㄥˇㄉㄟˊㄛ」，是放下壓力、釋放身心的代名詞。',
       origin_p2:'帶著這份深植於台灣茶山的記憶，傳承三代的磅茶決定蛻變，用貼近現代生活的輕鬆步調，取代傳統茶業的嚴肅。期盼這杯好茶，能成為您忙碌生活中的一個逗號，讓喝茶成為一件輕鬆、快樂且理所當然的事。',
-      hotspot_note:'「磅茶喔！（Bon De O）」台語，是放下壓力、釋放身心的代名詞。',
-      hotspot_link:'了解品牌故事 →',
       pillars_h2:'四大核心理念',
       pillar1_h4:'陪伴每一個日常', pillar1_p:'褪去繁複，透過職人把關確保純粹風味，讓好茶自然融入生活每個角落。',
       pillar2_h4:'輕鬆上手的品茶方式', pillar2_p:'去蕪存菁、口感清爽，簡單步驟就能沖出一壺好茶，反覆回沖依然回甘。',
@@ -1021,8 +1008,6 @@
       origin_p1:'Bondeo was born in a secluded tea garden 1,700 meters above sea level. Under the blazing sun, tea-picking women carefully gathered tender leaves into the baskets on their backs. When the team leader called out "Bon De O!" — time to weigh in — laughter would spread through the fields at once. It was the moment to set down the heavy load from their shoulders. Despite their calloused fingertips, their faces carried nothing but quiet satisfaction.',
       origin_note:'"Bon De O" — from the Taiwanese Hokkien phrase for weighing tea — has come to mean letting go of pressure and freeing both body and mind.',
       origin_p2:'Carrying this memory rooted deep in Taiwan\'s tea mountains, Bondeo — now in its third generation — chose to transform: replacing the solemnity of traditional tea-making with a rhythm that fits modern life. We hope this cup becomes a comma in your busy day, making tea-drinking something easy, joyful, and simply natural.',
-      hotspot_note:'"Bon De O!" — Taiwanese Hokkien for letting go of pressure and freeing both body and mind.',
-      hotspot_link:'Read the brand story →',
       pillars_h2:'Four Core Principles',
       pillar1_h4:'A Companion to Everyday Life', pillar1_p:'Stripped of complexity, quality is guaranteed by artisan care, so good tea naturally fits into every corner of life.',
       pillar2_h4:'An Effortless Way to Enjoy Tea', pillar2_p:'Refined and clean-tasting — a few simple steps brew a great pot, with sweetness that lasts through multiple infusions.',
@@ -1089,8 +1074,6 @@
       origin_p1:'磅茶は、標高1700メートルの茶園という秘境で生まれました。強い日差しの下、茶摘みの女性たちは慎重に、瑞々しい茶葉を背負ったかごへと集めていきます。班長が「磅茶喔！（Bon De O）」と声を張り上げると、茶園には笑い声が広がります——それは茶葉の重さを量り、肩の重荷を下ろす瞬間。指先にたこができていても、彼女たちの顔にはいつも満ち足りた笑顔がありました。',
       origin_note:'「Bon De O」は台湾語で茶葉の重さを量る掛け声。転じて、プレッシャーを手放し、心身を解き放つ言葉となりました。',
       origin_p2:'台湾の茶山に深く根ざしたこの記憶を受け継ぎ、三代続く磅茶は変革を選びました。伝統茶業の堅苦しさを、現代の暮らしに寄り添う気軽さへ。この一杯が、忙しい毎日の中の小さな句読点となり、お茶を飲むことがもっと気軽で、楽しく、当たり前のことになりますように。',
-      hotspot_note:'「磅茶喔！（Bon De O）」台湾語で、プレッシャーを手放し心身を解き放つという意味です。',
-      hotspot_link:'ブランドストーリーを見る →',
       pillars_h2:'4つのコアバリュー',
       pillar1_h4:'日常に寄り添う', pillar1_p:'複雑さを手放し、職人による厳選で純粋な風味を守る。良いお茶が自然と生活のあらゆる場面に溶け込みます。',
       pillar2_h4:'気軽に楽しめる飲み方', pillar2_p:'雑味を取り除いたすっきりとした味わい。簡単な手順で美味しい一杯が淹れられ、何煎も甘みが続きます。',
@@ -1553,14 +1536,10 @@
       var deepMobileListEl = document.getElementById('deepMobileList');
       function renderDeepMobileList(){
         if(!deepMobileListEl) return;
-        var hs = (I18N[currentLang] || I18N.zh);
         deepMobileListEl.innerHTML = products.map(function(p){
           return '' +
             '<div class="dm-card">' +
-              '<div class="dm-card-frame"><img src="'+p.img+'" alt="'+p.title+'" loading="lazy">' +
-                '<button class="tea-hotspot" type="button" aria-label="了解磅茶名稱由來" aria-expanded="false"><span class="dot"></span></button>' +
-                '<div class="tea-hotspot-card"><p>'+hs.hotspot_note+'</p><a href="#origin">'+hs.hotspot_link+'</a></div>' +
-              '</div>' +
+              '<div class="dm-card-frame"><img src="'+p.img+'" alt="'+p.title+'" loading="lazy"></div>' +
               '<div class="dm-card-no">'+p.no+'</div>' +
               '<h3>'+p.title+'</h3>' +
               '<div class="dm-card-flavor">'+p.flavor.map(function(f){ return '<span>'+f+'</span>'; }).join('')+'</div>' +
@@ -1600,29 +1579,6 @@
         });
       }
     } catch(e){ console.warn('deep-dive init failed', e); }
-  })();
-
-  /* --- product photo hotspots (isolated, event-delegated so it works for both
-     the desktop pinned frame and every dynamically-generated mobile card) --- */
-  (function(){
-    try{
-      function closeAll(){
-        document.querySelectorAll('.tea-hotspot-card.open').forEach(function(c){ c.classList.remove('open'); });
-        document.querySelectorAll('.tea-hotspot[aria-expanded="true"]').forEach(function(b){ b.setAttribute('aria-expanded','false'); });
-      }
-      document.addEventListener('click', function(e){
-        var btn = e.target.closest ? e.target.closest('.tea-hotspot') : null;
-        if(btn){
-          var card = btn.nextElementSibling;
-          var willOpen = card && !card.classList.contains('open');
-          closeAll();
-          if(willOpen && card){ card.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
-          e.stopPropagation();
-        } else if(!e.target.closest || !e.target.closest('.tea-hotspot-card')){
-          closeAll();
-        }
-      });
-    } catch(e){ console.warn('tea hotspot init failed', e); }
   })();
 
   /* --- scroll parallax on origin & story images (isolated) --- */
