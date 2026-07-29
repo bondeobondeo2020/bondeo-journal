@@ -679,7 +679,7 @@
   </section>
 
   <section class="chapter chapter-video-contained" id="ch4">
-    <video class="chapter-bg-blur" autoplay muted loop playsinline preload="auto">
+    <video class="chapter-bg-blur" autoplay muted loop playsinline preload="auto" poster="assets/story/taste_b_poster.jpg">
       <source src="assets/story/taste_b_steep.mp4" type="video/mp4">
     </video>
     <div class="chapter-scrim"></div>
@@ -1537,6 +1537,27 @@
       }, { threshold:0.6 });
       chapters.forEach(function(c){ io.observe(c); });
     } catch(e){ console.warn('chapters init failed', e); }
+  })();
+
+  /* --- iOS 低耗電模式 / 部分瀏覽器會擋掉 autoplay，直到使用者第一次點擊或按鍵才解鎖 ---
+     這裡在使用者第一次觸控/點擊/按鍵時，把目前所有帶 autoplay 的影片都補打一次 play()，
+     讓開場影片盡快從「暫停帶播放鍵」的狀態恢復成自動播放，不用逐支手動點。
+     無法完全繞過系統層級的低耗電限制（Apple 刻意封鎖），這是目前能做到最快的補救。 --- */
+  (function(){
+    try{
+      var started = false;
+      function unlockAutoplay(){
+        if(started) return;
+        started = true;
+        document.querySelectorAll('video[autoplay]').forEach(function(v){
+          var p = v.play();
+          if(p && typeof p.catch === 'function'){ p.catch(function(){}); }
+        });
+      }
+      ['touchstart','click','keydown'].forEach(function(evt){
+        window.addEventListener(evt, unlockAutoplay, { once:true, passive:true });
+      });
+    } catch(e){ console.warn('autoplay unlock failed', e); }
   })();
 
   /* --- ch5（系列）：復刻原本 hero 的滑鼠聚光燈 + 視差互動 --- */
