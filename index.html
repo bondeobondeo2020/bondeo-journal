@@ -1422,14 +1422,17 @@
       if(!isFinePointer) return;
       document.querySelectorAll('.btn-primary, .btn-outline, .btn-dark, .nav-cta, .quick-buy, .deep-cta, .bundle-cta').forEach(function(el){
         var curMx = 0, curMy = 0;
+        var rect = null;
+        /* 只在滑鼠進入時讀一次版面位置，移動中重複使用快取值，
+           避免每個 mousemove 都呼叫 getBoundingClientRect 造成強制重排 */
+        el.addEventListener('mouseenter', function(){ rect = el.getBoundingClientRect(); el.style.transition='transform .05s linear'; });
         el.addEventListener('mousemove', function(e){
-          var r = el.getBoundingClientRect();
-          curMx = e.clientX - r.left - r.width/2;
-          curMy = e.clientY - r.top - r.height/2;
+          if(!rect) rect = el.getBoundingClientRect();
+          curMx = e.clientX - rect.left - rect.width/2;
+          curMy = e.clientY - rect.top - rect.height/2;
           el.style.transform = 'translate(' + (curMx*0.25) + 'px,' + (curMy*0.35) + 'px)';
         });
-        el.addEventListener('mouseleave', function(){ el.style.transform = 'translate(0,0)'; el.style.transition='transform .5s cubic-bezier(.16,1,.3,1)'; });
-        el.addEventListener('mouseenter', function(){ el.style.transition='transform .05s linear'; });
+        el.addEventListener('mouseleave', function(){ rect = null; el.style.transform = 'translate(0,0)'; el.style.transition='transform .5s cubic-bezier(.16,1,.3,1)'; });
         el.addEventListener('mousedown', function(){ el.style.transition='transform .12s ease'; el.style.transform = 'translate(' + (curMx*0.25) + 'px,' + (curMy*0.35) + 'px) scale(0.93)'; });
         el.addEventListener('mouseup', function(){ el.style.transition='transform .2s cubic-bezier(.16,1,.3,1)'; el.style.transform = 'translate(' + (curMx*0.25) + 'px,' + (curMy*0.35) + 'px) scale(1)'; });
       });
@@ -1441,13 +1444,15 @@
     try{
       if(!isFinePointer) return;
       document.querySelectorAll('.bundle-card, .j-card').forEach(function(card){
+        var rect = null;
+        card.addEventListener('mouseenter', function(){ rect = card.getBoundingClientRect(); });
         card.addEventListener('mousemove', function(e){
-          var r = card.getBoundingClientRect();
-          var px = (e.clientX - r.left - r.width/2) / r.width;
-          var py = (e.clientY - r.top - r.height/2) / r.height;
+          if(!rect) rect = card.getBoundingClientRect();
+          var px = (e.clientX - rect.left - rect.width/2) / rect.width;
+          var py = (e.clientY - rect.top - rect.height/2) / rect.height;
           card.style.transform = 'perspective(900px) rotateY(' + (px*5).toFixed(2) + 'deg) rotateX(' + (-py*5).toFixed(2) + 'deg) translateY(-6px)';
         });
-        card.addEventListener('mouseleave', function(){ card.style.transform = ''; });
+        card.addEventListener('mouseleave', function(){ rect = null; card.style.transform = ''; });
       });
     } catch(e){ console.warn('card tilt init failed', e); }
   })();
@@ -1568,24 +1573,29 @@
       var ch5Spotlight = document.getElementById('ch5Spotlight');
       if(!ch5Img || !ch5Section) return;
       var mx = 0, my = 0;
+      var ch5Rect = null;
       function apply(){
         ch5Img.style.transform = 'translate(' + (mx*-18) + 'px,' + (my*-18 + ch5ScrollY) + 'px) scale(1.08)';
       }
+      /* 同上：滑鼠進入時才讀一次版面位置，移動中重複使用快取，避免強制重排 */
+      ch5Section.addEventListener('mouseenter', function(){ ch5Rect = ch5Section.getBoundingClientRect(); });
       ch5Section.addEventListener('mousemove', function(e){
-        var r = ch5Section.getBoundingClientRect();
-        mx = (e.clientX - r.left)/r.width - 0.5;
-        my = (e.clientY - r.top)/r.height - 0.5;
+        if(!ch5Rect) ch5Rect = ch5Section.getBoundingClientRect();
+        mx = (e.clientX - ch5Rect.left)/ch5Rect.width - 0.5;
+        my = (e.clientY - ch5Rect.top)/ch5Rect.height - 0.5;
         apply();
         if(ch5Spotlight){
           ch5Spotlight.style.setProperty('--sx', ((mx+0.5)*100).toFixed(1) + '%');
           ch5Spotlight.style.setProperty('--sy', ((my+0.5)*100).toFixed(1) + '%');
         }
       });
+      ch5Section.addEventListener('mouseleave', function(){ ch5Rect = null; });
       var ch5ScrollY = 0;
       window.__registerScroll(function(){
         var rect = ch5Section.getBoundingClientRect();
         if(rect.bottom < 0 || rect.top > window.innerHeight){ return; }
         ch5ScrollY = Math.min(Math.max(0, -rect.top) * 0.15, 22);
+        ch5Rect = rect;
         apply();
       });
     } catch(e){ console.warn('ch5 parallax failed', e); }
