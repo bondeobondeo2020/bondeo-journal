@@ -352,30 +352,39 @@
   }
   /* the float animation lives on this inner wrapper (not .deep-item itself) so it
      never fights with the role-change transition JS drives on .deep-item's own
-     transform/left/height — the two compose instead of overriding each other */
-  .deep-item-float{ width:100%; height:100%; animation:deepFloat 5.2s ease-in-out infinite; }
+     transform/left/height — the two compose instead of overriding each other.
+     Only the centered/focal can floats: animating all six at once was the main
+     source of the jitter noticed on mobile during a swipe (a lot of concurrently
+     animating + repositioning layers at once is more than low-power GPUs keep smooth). */
+  .deep-item-float{ width:100%; height:100%; will-change:transform; }
+  .deep-item.role-center .deep-item-float{ animation:deepFloat 5.2s ease-in-out infinite; }
   @keyframes deepFloat{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-4%); } }
-  @media (prefers-reduced-motion: reduce){ .deep-item-float{ animation:none; } }
+  @media (prefers-reduced-motion: reduce){ .deep-item.role-center .deep-item-float{ animation:none; } }
   .deep-item img{
     width:100%; height:100%; object-fit:contain; object-position:center bottom;
     display:block; pointer-events:none;
     filter:drop-shadow(0 26px 34px rgba(18,18,18,0.18));
   }
-  /* center product sized up and sharpened; side/back products pushed smaller,
-     blurrier and dimmer for a stronger sense of depth around the focal item */
-  .deep-item.role-center{ height:64%; z-index:20; }
-  .deep-item.role-center img{ filter:drop-shadow(0 46px 54px rgba(18,18,18,0.26)); }
-  .deep-item.role-left, .deep-item.role-right{ height:22%; z-index:10; filter:blur(2px); opacity:0.4; }
-  .deep-item.role-back{ height:16%; z-index:5; filter:blur(4px); opacity:0.2; }
-  .deep-item.role-hidden{ height:18%; opacity:0; z-index:1; pointer-events:none; }
+  /* six roles for six products: center (focal) + 2 rings of 2 on either side +
+     1 farthest item directly behind center — every other product is now visibly
+     on stage (not just 3 of them), fading smaller/blurrier/dimmer with distance */
+  .deep-item.role-center{ height:74%; z-index:20; }
+  .deep-item.role-center img{ filter:drop-shadow(0 50px 58px rgba(18,18,18,0.28)); }
+  .deep-item.role-left1, .deep-item.role-right1{ height:36%; z-index:15; filter:blur(1.5px); opacity:0.52; }
+  .deep-item.role-left2, .deep-item.role-right2{ height:24%; z-index:8; filter:blur(3px); opacity:0.3; }
+  .deep-item.role-far{ height:16%; z-index:2; filter:blur(4.5px); opacity:0.16; }
 
   .deep-panel{ position:absolute; bottom:8%; left:6%; z-index:30; max-width:360px; }
   .deep-no{ font-family:'Playfair Display', serif; font-style:italic; color:var(--mauve-deep); font-size:16px; letter-spacing:0.12em; margin-bottom:10px; }
   .deep-title{ font-size:32px; color:var(--ink); margin-bottom:16px; }
   .deep-flavor{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
   .deep-flavor span{ font-size:13px; letter-spacing:0.04em; padding:5px 14px; border-radius:20px; border:1px solid var(--border-soft); color:var(--ink-soft); }
-  .deep-specs{ display:grid; grid-template-columns:1fr 1fr; gap:10px 24px; margin-bottom:20px; }
-  .deep-specs div{ font-size:14px; color:var(--ink-soft); }
+  /* single column instead of a 2x2 grid: a half-width column was too narrow for
+     several of the spec values, forcing an awkward mid-phrase wrap to a second
+     line and stretching the panel taller than it needs to be. Full width lets
+     each line lay out on one line for any of the three languages. */
+  .deep-specs{ display:grid; grid-template-columns:1fr; gap:8px; margin-bottom:20px; }
+  .deep-specs div{ font-size:14px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .deep-specs b{ color:var(--ink); font-weight:500; }
   .deep-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:17px; color:var(--ink); max-width:360px; margin-bottom:22px; }
   .deep-foot{ display:flex; align-items:center; gap:22px; }
@@ -461,6 +470,13 @@
     .nav-links{ gap:18px; font-size:13.5px; }
     .nav-cta{ padding:8px 16px; font-size:12px; }
     .lang-switch{ padding:6px 22px 6px 10px; font-size:11px; }
+    /* at tablet/small-laptop widths the enlarged center can (74% of stage
+       height) grows wide enough to reach under the wheel panel's fixed 240px
+       corner box — narrow the wheel panel and pull the center can back in a
+       little so they keep clear of each other; the ≤860px mobile layout below
+       overrides both of these again with its own stacked-flow sizing */
+    .deep-wheel-panel{ width:190px; }
+    .deep-item.role-center{ height:66%; }
   }
 
   @media (max-width:860px){
@@ -481,19 +497,24 @@
        eyebrow, with the text panel and flavor wheel following below —
        customers no longer have to scroll past the write-up to find the arrows */
     .deep-eyebrow{ position:static; transform:none; margin-bottom:16px; order:0; }
-    .deep-carousel{ position:relative; width:100%; height:260px; margin-bottom:14px; z-index:2; order:1; }
+    .deep-carousel{ position:relative; width:100%; height:300px; margin-bottom:14px; z-index:2; order:1; }
     .deep-item{ bottom:0; }
     .deep-item.role-center{ height:100%; }
-    .deep-item.role-left, .deep-item.role-right{ height:44%; }
-    .deep-item.role-back{ height:32%; }
+    .deep-item.role-left1, .deep-item.role-right1{ height:48%; }
+    .deep-item.role-left2, .deep-item.role-right2{ height:32%; }
+    .deep-item.role-far{ height:22%; }
     .deep-nav-btns{ position:static; margin-bottom:10px; z-index:2; order:2; }
-    .deep-progress{ position:static; margin-bottom:26px; z-index:2; order:3; }
+    /* the desktop rule centers this row with left:50%+translateX(-50%) (needed
+       since it's absolutely positioned there); on mobile it's back in normal
+       flow so that leftover transform was the thing shoving it off-center —
+       explicitly cancel it here */
+    .deep-progress{ position:static; transform:none; margin-bottom:26px; z-index:2; order:3; }
     .deep-panel{
       position:static; max-width:340px; width:100%; text-align:center;
       z-index:2; margin-bottom:24px; order:4;
     }
     .deep-flavor, .deep-foot{ justify-content:center; }
-    .deep-specs{ text-align:left; max-width:280px; margin-left:auto; margin-right:auto; }
+    .deep-specs{ text-align:left; max-width:300px; margin-left:auto; margin-right:auto; }
     .deep-wheel-panel{
       position:static; width:210px; margin:0 0 4px; z-index:2; pointer-events:auto; order:5;
     }
@@ -799,7 +820,7 @@
         <p data-i18n="pillar4_p">從源頭支持友善土地的茶園，摒棄過度包裝，把永續化為日常實踐。</p>
       </div>
     </div>
-    <div class="story-banner"><img src="assets/lineup-wide-tight.webp" alt="磅茶 Bondeo 全系列茶罐" loading="lazy"></div>
+    <div class="story-banner"><img src="assets/lineup-wide-tight.webp" alt="磅茶 Bondeo 全系列茶罐" loading="lazy" width="1686" height="550"></div>
     <div class="counters">
       <div class="counter-item reveal"><div class="num" data-target="100" data-suffix="%">0%</div><div class="label" data-i18n="counter1_label">原葉精華</div></div>
       <div class="counter-item reveal"><div class="num" data-target="0" data-suffix="%">0%</div><div class="label" data-i18n="counter2_label">化學添加</div></div>
@@ -1010,19 +1031,19 @@
     <p class="sub reveal" data-i18n="journal_sub">關於茶的知識、沖泡與選購提案</p>
     <div class="j-grid">
       <a class="j-card reveal" href="https://www.bondeo.com.tw/blogs/news/components-of-tea" target="_blank" rel="noopener">
-        <div class="j-media"><img src="https://cdn.store-assets.com/s/1434862/f/17138118.webp" alt="茶葉的成分" loading="lazy"></div>
+        <div class="j-media"><img src="https://cdn.store-assets.com/s/1434862/f/17138118.webp" alt="茶葉的成分" loading="lazy" width="800" height="500"></div>
         <span class="tag" data-i18n="journal1_tag">茶知識</span>
         <h3 data-i18n="journal1_h3">茶葉的成分</h3>
         <p data-i18n="journal1_p">買茶前，先搞懂茶葉裡究竟藏著什麼。</p>
       </a>
       <a class="j-card reveal" href="https://www.bondeo.com.tw/blogs/news/how-to-brew-tea" target="_blank" rel="noopener">
-        <div class="j-media"><img src="https://cdn.store-assets.com/s/1434862/f/17138120.webp" alt="如何泡茶" loading="lazy"></div>
+        <div class="j-media"><img src="https://cdn.store-assets.com/s/1434862/f/17138120.webp" alt="如何泡茶" loading="lazy" width="800" height="500"></div>
         <span class="tag" data-i18n="journal2_tag">沖泡指南</span>
         <h3 data-i18n="journal2_h3">如何泡茶</h3>
         <p data-i18n="journal2_p">掌握水溫與時間，泡出茶行等級的一杯茶。</p>
       </a>
       <a class="j-card reveal" href="https://www.bondeo.com.tw/blogs/news/how-to-choose-tea" target="_blank" rel="noopener">
-        <div class="j-media"><img src="https://cdn.store-assets.com/s/1434862/f/17138122.webp" alt="如何選茶" loading="lazy"></div>
+        <div class="j-media"><img src="https://cdn.store-assets.com/s/1434862/f/17138122.webp" alt="如何選茶" loading="lazy" width="800" height="500"></div>
         <span class="tag" data-i18n="journal3_tag">選購指南</span>
         <h3 data-i18n="journal3_h3">如何選茶</h3>
         <p data-i18n="journal3_p">避開常見誤區，挑到真正適合自己的茶。</p>
@@ -1898,16 +1919,21 @@
         });
       }
 
+      /* six roles for six products: every other tea is now on stage (not just 3
+         of them) — 'far' is whichever single product sits exactly opposite the
+         active one (only possible/needed because N happens to be 6). */
+      var ITEM_POSITIONS = {
+        center: '50%', left1: '32%', right1: '68%', left2: '15%', right2: '85%', far: '50%'
+      };
       function roleFor(i){
-        var center = activeIndex;
-        var left = (activeIndex + N - 1) % N;
-        var right = (activeIndex + 1) % N;
-        var back = (activeIndex + 2) % N;
-        if(i === center) return 'center';
-        if(i === left) return 'left';
-        if(i === right) return 'right';
-        if(i === back) return 'back';
-        return 'hidden';
+        var diff = (i - activeIndex + N) % N;
+        var offset = diff <= N / 2 ? diff : diff - N;
+        if(offset === 0) return 'center';
+        if(offset === 1) return 'right1';
+        if(offset === -1) return 'left1';
+        if(offset === 2) return 'right2';
+        if(offset === -2) return 'left2';
+        return 'far';
       }
 
       function render(){
@@ -1918,11 +1944,8 @@
         items.forEach(function(el, i){
           var role = roleFor(i);
           el.className = 'deep-item role-' + role;
-          if(role === 'center'){ el.style.left = '50%'; el.style.transform = 'translateX(-50%) scale(1)'; }
-          else if(role === 'left'){ el.style.left = '24%'; el.style.transform = 'translateX(-50%) scale(1)'; }
-          else if(role === 'right'){ el.style.left = '76%'; el.style.transform = 'translateX(-50%) scale(1)'; }
-          else if(role === 'back'){ el.style.left = '50%'; el.style.transform = 'translateX(-50%) scale(1)'; }
-          else { el.style.left = '50%'; el.style.transform = 'translateX(-50%) scale(0.9)'; }
+          el.style.left = ITEM_POSITIONS[role] || '50%';
+          el.style.transform = 'translateX(-50%) scale(1)';
         });
 
         dots.forEach(function(d, i){ d.classList.toggle('active', i === activeIndex); });
