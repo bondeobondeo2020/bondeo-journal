@@ -156,7 +156,7 @@
   .promo-bar{ position:fixed; top:0; left:0; right:0; z-index:210; background:var(--ink); color:var(--cream); font-size:14px; letter-spacing:0.03em; padding:11px 46px; display:flex; align-items:center; justify-content:center; gap:14px; transition:transform .4s ease; }
   .promo-bar #promoText{ transition:opacity .3s ease; }
   .promo-bar a{ text-decoration:underline; text-underline-offset:3px; color:var(--mauve-pale); white-space:nowrap; }
-  .promo-close{ position:absolute; right:16px; top:50%; transform:translateY(-50%); cursor:pointer; opacity:0.55; font-size:13px; padding:4px; }
+  .promo-close{ position:absolute; right:12px; top:50%; transform:translateY(-50%); cursor:pointer; opacity:0.55; font-size:13px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; }
   .promo-close:hover{ opacity:1; }
   .promo-bar.hidden{ transform:translateY(-100%); }
   body.promo-hidden nav{ top:0; }
@@ -172,12 +172,12 @@
   .nav-links a{color:rgba(255,255,255,0.9); position:relative; padding-bottom:4px; transition:color .5s ease; white-space:nowrap;}
   nav.scrolled .nav-links a{color:var(--ink-soft);}
   .nav-links a.active{color:var(--amber);}
-  nav.scrolled .nav-links a.active{color:var(--amber);}
+  nav.scrolled .nav-links a.active{color:var(--tea-brown);}
   .nav-links a::after{content:''; position:absolute; left:0; bottom:0; width:0; height:1px; background:var(--amber); transition:width .3s ease;}
   .nav-links a:hover::after{width:100%;}
   .nav-rail{ position:absolute; left:0; bottom:-8px; width:0; height:2px; border-radius:2px; background:var(--amber); opacity:0; transition:left .45s var(--ease-luxury), width .45s var(--ease-luxury), opacity .3s ease; pointer-events:none; }
   .nav-cta{ border:1px solid rgba(255,255,255,0.6); color:#fff; padding:9px 22px; font-size:13px; letter-spacing:0.08em; border-radius:30px; transition:all .4s ease; display:inline-block; white-space:nowrap; flex-shrink:0; }
-  nav.scrolled .nav-cta{ border-color:var(--amber); color:var(--amber); }
+  nav.scrolled .nav-cta{ border-color:var(--amber); color:var(--tea-brown); }
   .nav-cta:hover{ background:var(--amber); border-color:var(--amber); color:#fff; }
   nav.scrolled .nav-cta:hover{ color:#fff; }
 
@@ -257,7 +257,7 @@
   .pillar-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:40px; text-align:left; }
   .pillar-item{ border-top:1px solid var(--border-soft); padding-top:24px; }
   .pillar-num{ font-family:'Playfair Display', serif; font-size:14px; color:var(--mauve-deep); letter-spacing:0.1em; margin-bottom:14px; }
-  .pillar-item h4{ font-size:17px; color:var(--ink); margin-bottom:10px; }
+  .pillar-item h3{ font-size:17px; color:var(--ink); margin-bottom:10px; }
   .pillar-item p{ font-size:14px; color:var(--ink-soft); }
 
   .story-banner{ border-radius:4px; overflow:hidden; margin:60px 0; height:340px; }
@@ -286,7 +286,7 @@
   .perks-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:22px; margin-bottom:44px; text-align:left; }
   .perk-card{ background:rgba(255,255,255,0.55); border:1px solid var(--border-soft); border-radius:12px; padding:26px 22px; }
   .perk-icon{ width:42px; height:42px; border-radius:50%; background:var(--sage-pale); display:flex; align-items:center; justify-content:center; font-size:19px; margin-bottom:16px; }
-  .perk-card h4{ font-size:16px; color:var(--ink); margin-bottom:8px; }
+  .perk-card h3{ font-size:16px; color:var(--ink); margin-bottom:8px; }
   .perk-card p{ font-size:14px; color:var(--ink-soft); }
   .perk-card .perk-note{ font-size:12px; color:var(--mauve-deep); margin-top:8px; line-height:1.6; }
   .btn-dark{ display:inline-block; background:var(--ink); color:var(--cream); padding:14px 36px; font-size:13px; letter-spacing:0.12em; border-radius:30px; transition:background .3s ease; }
@@ -310,7 +310,7 @@
   .bundle-contents li::before{ content:''; position:absolute; left:0; top:8px; width:5px; height:5px; border-radius:50%; background:var(--sage-deep); }
   .bundle-price{ margin:auto 0 18px; display:flex; align-items:baseline; gap:10px; }
   .bundle-price .was{ font-size:13px; color:var(--ink-soft); text-decoration:line-through; opacity:0.6; }
-  .bundle-price .now{ font-size:19px; color:var(--amber); font-family:'Poppins', sans-serif; font-weight:600; }
+  .bundle-price .now{ font-size:19px; color:var(--tea-brown); font-family:'Poppins', sans-serif; font-weight:600; }
   .bundle-cta{ display:inline-block; text-align:center; border:1px solid var(--ink); color:var(--ink); padding:11px 0; font-size:13px; letter-spacing:0.08em; border-radius:30px; transition:all .3s ease; }
   .bundle-cta:hover{ background:var(--ink); color:var(--cream); }
 
@@ -348,7 +348,7 @@
   .deep-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:18px; color:var(--ink); max-width:460px; margin-bottom:22px; opacity:0; transform:translateY(12px); transition:opacity .6s ease .1s, transform .6s ease .1s; }
   .deep-foot{ display:flex; align-items:center; gap:22px; opacity:0; transform:translateY(12px); transition:opacity .6s ease .15s, transform .6s ease .15s; }
   .deep-price{ font-size:16px; color:var(--ink); }
-  .deep-cta{ font-size:12px; letter-spacing:0.08em; color:var(--amber); border-bottom:1px solid var(--amber); padding-bottom:2px; }
+  .deep-cta{ font-size:12px; letter-spacing:0.08em; color:var(--tea-brown); border-bottom:1px solid var(--amber); padding-bottom:2px; }
   .deep-progress{ position:relative; z-index:2; display:flex; gap:8px; margin-top:36px; }
   .deep-progress span{ width:22px; height:2px; background:var(--border-soft); transition:background .3s ease; }
   .deep-progress span.active{ background:var(--amber); }
@@ -368,7 +368,7 @@
   .dm-card-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:15px; color:var(--ink); margin-bottom:18px; }
   .dm-card-foot{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
   .dm-card-price{ font-size:15px; color:var(--ink); }
-  .dm-card-cta{ font-size:12px; letter-spacing:0.06em; color:var(--amber); border-bottom:1px solid var(--amber); padding-bottom:2px; white-space:nowrap; }
+  .dm-card-cta{ font-size:12px; letter-spacing:0.06em; color:var(--tea-brown); border-bottom:1px solid var(--amber); padding-bottom:2px; white-space:nowrap; }
 
   /* flavor wheel */
   .wheel-section{ padding:60px 0 120px; text-align:center; }
@@ -584,7 +584,7 @@
 })();
 </script>
 
-<div class="bg-fixed" aria-hidden="true"><img src="assets/lineup-float.webp" alt=""></div>
+<div class="bg-fixed" aria-hidden="true"><img src="assets/lineup-float.webp" alt="" width="1800" height="1800"></div>
 
 <div class="scroll-progress" id="scrollProgress"></div>
 
@@ -707,7 +707,7 @@
   </section>
 
   <section class="chapter" id="ch5">
-    <img class="chapter-bg" id="ch5Img" src="assets/story/collection.jpg" alt="磅茶 Bondeo 六款茶罐">
+    <img class="chapter-bg" id="ch5Img" src="assets/story/collection.jpg" alt="磅茶 Bondeo 六款茶罐" width="3752" height="3752">
     <div class="hero-spotlight" id="ch5Spotlight"></div>
     <div class="chapter-scrim"></div>
     <div class="hero-inner">
@@ -750,22 +750,22 @@
     <div class="pillar-grid">
       <div class="pillar-item reveal">
         <div class="pillar-num">01</div>
-        <h4 data-i18n="pillar1_h4">陪伴每一個日常</h4>
+        <h3 data-i18n="pillar1_h4">陪伴每一個日常</h3>
         <p data-i18n="pillar1_p">褪去繁複，透過職人把關確保純粹風味，讓好茶自然融入生活每個角落。</p>
       </div>
       <div class="pillar-item reveal">
         <div class="pillar-num">02</div>
-        <h4 data-i18n="pillar2_h4">輕鬆上手的品茶方式</h4>
+        <h3 data-i18n="pillar2_h4">輕鬆上手的品茶方式</h3>
         <p data-i18n="pillar2_p">去蕪存菁、口感清爽，簡單步驟就能沖出一壺好茶，反覆回沖依然回甘。</p>
       </div>
       <div class="pillar-item reveal">
         <div class="pillar-num">03</div>
-        <h4 data-i18n="pillar3_h4">陪伴各種心境</h4>
+        <h3 data-i18n="pillar3_h4">陪伴各種心境</h3>
         <p data-i18n="pillar3_p">不追求繁複調味，只呈現原始風味，讓你依當下心情挑選專屬的那份純粹。</p>
       </div>
       <div class="pillar-item reveal">
         <div class="pillar-num">04</div>
-        <h4 data-i18n="pillar4_h4">疼惜土地永續</h4>
+        <h3 data-i18n="pillar4_h4">疼惜土地永續</h3>
         <p data-i18n="pillar4_p">從源頭支持友善土地的茶園，摒棄過度包裝，把永續化為日常實踐。</p>
       </div>
     </div>
@@ -906,23 +906,23 @@
     <div class="perks-grid">
       <div class="perk-card">
         <div class="perk-icon">🎁</div>
-        <h4 data-i18n="perk1_h4">註冊送 $100 購物金</h4>
+        <h3 data-i18n="perk1_h4">註冊送 $100 購物金</h3>
         <p data-i18n="perk1_p">現買現折，不用等下一次，購物金效期 30 天</p>
       </div>
       <div class="perk-card">
         <div class="perk-icon">🚚</div>
-        <h4 data-i18n="perk2_h4">首購免運</h4>
+        <h3 data-i18n="perk2_h4">首購免運</h3>
         <p data-i18n="perk2_p">首次訂單未滿 $1,000 也能享免運</p>
         <p class="perk-note" data-i18n="perk2_note">＊若首購已滿 $1,000，將直接適用「全館滿千免運」，恕無法與首購免運券併用，之後訂單也不再適用（已非首購）</p>
       </div>
       <div class="perk-card">
         <div class="perk-icon">📦</div>
-        <h4 data-i18n="perk3_h4">全館滿 $1,000 免運</h4>
+        <h3 data-i18n="perk3_h4">全館滿 $1,000 免運</h3>
         <p data-i18n="perk3_p">不限身份，單筆訂單滿千即享免運，長期適用</p>
       </div>
       <div class="perk-card">
         <div class="perk-icon">🎂</div>
-        <h4 data-i18n="perk4_h4">生日月再送 $100</h4>
+        <h3 data-i18n="perk4_h4">生日月再送 $100</h3>
         <p data-i18n="perk4_p">當月壽星登入會員即可領取專屬購物金</p>
       </div>
     </div>
@@ -957,11 +957,11 @@
       <div class="corp-gallery">
         <div class="corp-gallery-label" data-i18n="corp_gallery_label">真實客製化案例・喜慶婚禮訂製茶禮</div>
         <div class="corp-gallery-grid">
-          <img src="assets/corp-case1.webp" alt="客製化錦盒包裝：台灣頂級蜜香烏龍紅茶禮盒" loading="lazy">
-          <img src="assets/corp-case2.webp" alt="客製化茶罐與紅色標籤細節：頂級梨山烏龍紅茶" loading="lazy">
-          <img src="assets/corp-case3.webp" alt="客製化錦盒禮盒外觀" loading="lazy">
-          <img src="assets/corp-case4.webp" alt="囍字客製化貼紙三角立體茶包，婚禮小物訂製" loading="lazy">
-          <img src="assets/corp-case5.webp" alt="囍字客製化茶包手持特寫" loading="lazy">
+          <img src="assets/corp-case1.webp" alt="客製化錦盒包裝：台灣頂級蜜香烏龍紅茶禮盒" loading="lazy" width="800" height="1000">
+          <img src="assets/corp-case2.webp" alt="客製化茶罐與紅色標籤細節：頂級梨山烏龍紅茶" loading="lazy" width="800" height="1000">
+          <img src="assets/corp-case3.webp" alt="客製化錦盒禮盒外觀" loading="lazy" width="800" height="1000">
+          <img src="assets/corp-case4.webp" alt="囍字客製化貼紙三角立體茶包，婚禮小物訂製" loading="lazy" width="922" height="1000">
+          <img src="assets/corp-case5.webp" alt="囍字客製化茶包手持特寫" loading="lazy" width="922" height="1000">
         </div>
       </div>
     </div>
@@ -1045,7 +1045,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <div class="foot-logo"><img src="assets/logo-tight.webp" alt="磅茶 Bondeo" loading="lazy"></div>
+        <div class="foot-logo"><img src="assets/logo-tight.webp" alt="磅茶 Bondeo" loading="lazy" width="311" height="503"></div>
         <p data-i18n="foot_tagline">讓茶，成為生活中的一部分。</p>
       </div>
       <div>
@@ -1463,16 +1463,25 @@
     } catch(e){ console.warn('nav init failed', e); }
   })();
 
-  /* --- scroll progress bar (isolated) --- */
+  /* --- scroll progress bar (isolated) ---
+     scrollHeight/clientHeight 強迫瀏覽器同步計算版面（forced reflow），
+     這裡改成只在載入時、resize、以及頁面完全載入後各量一次並快取起來，
+     每次捲動只讀 scrollY（不會觸發版面計算），避免每個捲動畫面格都強制重排。 */
   (function(){
     try{
       var bar = document.getElementById('scrollProgress');
-      function update(){
+      var maxScroll = 0;
+      function remeasure(){
         var h = document.documentElement;
-        var max = h.scrollHeight - h.clientHeight;
-        var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+        maxScroll = h.scrollHeight - h.clientHeight;
+      }
+      function update(){
+        var pct = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
         bar.style.width = pct + '%';
       }
+      remeasure();
+      window.addEventListener('resize', remeasure, { passive:true });
+      window.addEventListener('load', remeasure);
       window.__registerScroll(update);
     } catch(e){ console.warn('scroll progress failed', e); }
   })();
@@ -1498,13 +1507,21 @@
     } catch(e){ console.warn('promo bar init failed', e); }
   })();
 
-  /* --- floating quick-buy button (isolated) --- */
+  /* --- floating quick-buy button (isolated) ---
+     同上：offsetHeight 也是強迫重排的讀取，改成量一次快取，
+     resize 時才重新量，捲動當下只比較數字，不會逼瀏覽器重新計算版面。 */
   (function(){
     try{
       var quickBuy = document.getElementById('quickBuy');
       var chaptersEl = document.getElementById('chaptersSection');
+      var threshold = window.innerHeight * 0.85;
+      function remeasure(){
+        threshold = chaptersEl ? chaptersEl.offsetHeight * 0.92 : window.innerHeight * 0.85;
+      }
+      remeasure();
+      window.addEventListener('resize', remeasure, { passive:true });
+      window.addEventListener('load', remeasure);
       window.__registerScroll(function(){
-        var threshold = chaptersEl ? chaptersEl.offsetHeight * 0.92 : window.innerHeight * 0.85;
         if(window.scrollY > threshold){ quickBuy.classList.add('show'); }
         else { quickBuy.classList.remove('show'); }
       });
