@@ -138,7 +138,18 @@
   @keyframes introPop{ 0%{opacity:0; transform:scale(0.8);} 55%{opacity:1; transform:scale(1.05);} 100%{opacity:1; transform:scale(1);} }
   @media (prefers-reduced-motion: reduce){ .intro-mark img{ animation:none; opacity:1; transform:none; } }
 
-  html{scroll-behavior:smooth; scroll-padding-top:110px;}
+  html{
+    scroll-behavior:smooth; scroll-padding-top:110px;
+    /* iOS Safari can auto-inflate the rendered size of text nodes for
+       readability (independent of any zoom action, and it can also be
+       influenced by the system's 設定→輔助功能→顯示與文字大小 setting) while
+       leaving every px/vw/vh box on the page exactly where it was — text
+       grows inside containers that don't, which is what turns a tightly
+       laid-out section like the carousel into an overlapping mess. Pinning
+       this to 100% tells Safari to always render the font-sizes this
+       stylesheet actually declares, so layout math stays trustworthy. */
+    -webkit-text-size-adjust:100%; text-size-adjust:100%;
+  }
   body{ background:var(--cream); color:var(--ink); font-family:'Noto Sans TC', sans-serif; font-weight:400; font-size:16px; line-height:1.9; overflow-x:hidden; }
   h1,h2,h3{ font-family:'Noto Sans TC', sans-serif; font-weight:700; letter-spacing:0.01em; }
   .eyebrow{ font-family:'Playfair Display', serif; font-style:italic; font-size:15px; letter-spacing:0.18em; color:var(--mauve-deep); text-transform:uppercase; margin-bottom:14px; display:inline-block; }
@@ -337,7 +348,25 @@
      zoom levels where 100vh in CSS px exceeded the cap, the section's real size
      got pinned to that fixed pixel value while every other vh-based section kept
      scaling normally, so this one visibly fell out of proportion with the page. */
-  .deep-stage{ position:relative; height:100vh; min-height:640px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+  .deep-stage{
+    position:relative; height:100vh; min-height:640px; overflow:hidden; display:flex; align-items:center; justify-content:center;
+    /* real browser page-zoom (Ctrl/Cmd +/-) genuinely changes the CSS px
+       viewport size (zooming out gives every vw/vh unit MORE physical room,
+       zooming in gives it LESS) — so anything sized in plain vw/vh scales in
+       lockstep with zoom automatically. The text card and wheel card used to
+       be pinned to a flat max-width/width in raw PX (380px / 240px), which
+       does NOT scale with that inflating/shrinking vw-space — at some zoom
+       levels the fixed-px card barely changed size while everything else on
+       the page visibly did, and any button positioned with a calc() that
+       mixed those fixed px into a % formula drifted even further out of sync
+       the more the zoom level moved away from 100%. Driving both cards' size
+       from a shared vw-based variable (with only a loose px ceiling for
+       extreme ultra-wide screens) makes them scale exactly like everything
+       else under zoom, and the nav buttons — anchored off the same variables
+       — stay correctly glued to their edges at any zoom level. */
+    --panel-w: min(24vw, 460px);
+    --wheel-w: min(15vw, 280px);
+  }
   .deep-bg{ position:absolute; inset:0; z-index:0; }
   .deep-bg .blob{ position:absolute; width:60vw; height:60vw; border-radius:50%; filter:blur(90px); opacity:0.35; transition:background 900ms var(--ease-luxury); top:20%; left:50%; transform:translate(-50%,-50%); }
   .deep-eyebrow{ position:absolute; top:8%; left:50%; transform:translateX(-50%); z-index:3; text-align:center; }
@@ -386,7 +415,7 @@
      read once a lighter-colored can drifted underneath it — a translucent
      blurred backdrop keeps the copy legible no matter which can is behind it */
   .deep-panel{
-    position:absolute; bottom:7%; left:5%; z-index:30; max-width:380px;
+    position:absolute; bottom:7%; left:5%; z-index:30; max-width:var(--panel-w);
     background:rgba(245,237,225,0.62);
     backdrop-filter:blur(16px) saturate(1.1); -webkit-backdrop-filter:blur(16px) saturate(1.1);
     border-radius:22px; padding:30px 32px; box-shadow:0 24px 54px rgba(18,18,18,0.10);
@@ -434,26 +463,19 @@
   }
   .deep-nav-btn:hover{ background:var(--sage-pale); border-color:transparent; transform:translateY(-50%) scale(1.05); }
   .deep-nav-btn svg{ width:20px; height:20px; }
-  /* a flat % guess isn't safe here: .deep-panel is a FIXED max-width:380px
-     card at left:5%, and .deep-wheel-panel is a fixed width:240px card at
-     right:6% — on narrower desktop widths those fixed-px cards eat up a much
-     bigger share of the screen, so a plain percentage button position ends up
-     landing on top of the card instead of beside it (exactly what got flagged).
-     calc() anchors the button to the SAME formula the card itself is
-     positioned with, so there's always a guaranteed 28px gap outside the card
-     no matter the viewport width. It may still sit near/over a faded
-     background can in the ring behind it — that's fine, carousels commonly
-     float their controls over the blurred side items; it must just never
-     land on the readable text card or the wheel. */
-  .deep-nav-prev{ left:calc(5% + 380px + 28px); }
-  .deep-nav-next{ right:calc(6% + 240px + 28px); }
+  /* anchored to the SAME --panel-w / --wheel-w variables the cards themselves
+     use, so the buttons stay glued just outside each card's edge (plus a
+     small fixed gap) at any viewport width AND any zoom level — no more
+     drift between the button and the card it's supposed to sit beside. */
+  .deep-nav-prev{ left:calc(5% + var(--panel-w) + 28px); }
+  .deep-nav-next{ right:calc(6% + var(--wheel-w) + 28px); }
 
   .deep-progress{ position:absolute; bottom:3%; left:50%; transform:translateX(-50%); z-index:30; display:flex; gap:8px; }
   .deep-progress span{ width:22px; height:2px; background:var(--border-soft); cursor:pointer; transition:background .3s ease; }
   .deep-progress span.active{ background:var(--amber); }
 
   /* flavor wheel, merged into the same carousel section: SVG grid/axis/poly classes shared with #wheelSvg */
-  .deep-wheel-panel{ position:absolute; top:9%; right:6%; z-index:25; width:240px; text-align:center; pointer-events:none; }
+  .deep-wheel-panel{ position:absolute; top:9%; right:6%; z-index:25; width:var(--wheel-w); text-align:center; pointer-events:none; }
   .deep-wheel-label{ display:block; font-family:'Playfair Display', serif; font-style:italic; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--mauve-deep); margin-bottom:6px; }
   .deep-wheel-svg{ width:100%; height:auto; overflow:visible; }
   .deep-wheel-caption{ font-size:11px; color:var(--ink-soft); opacity:0.75; margin-top:8px; display:block; }
@@ -523,19 +545,18 @@
     .nav-cta{ padding:8px 16px; font-size:12px; }
     .lang-switch{ padding:6px 22px 6px 10px; font-size:11px; }
     /* at tablet/small-laptop widths the enlarged center can (74% of stage
-       height) grows wide enough to reach under the wheel panel's fixed 240px
-       corner box — narrow the wheel panel and pull the center can back in a
-       little so they keep clear of each other; the ≤860px mobile layout below
-       overrides both of these again with its own stacked-flow sizing */
-    .deep-wheel-panel{ width:190px; }
+       height) grows wide enough to reach under the wheel panel's corner box —
+       narrow the wheel panel (via the shared variable, so the nav-next button
+       automatically stays glued to its new edge too) and pull the center can
+       back in a little so they keep clear of each other; the ≤860px mobile
+       layout below overrides all of this again with its own stacked-flow sizing */
+    .deep-stage{ --wheel-w: min(16vw, 200px); }
     .deep-item.role-center{ height:min(66%, 40vw); }
     /* same center-of-mass fix as the base rule, updated for this
        breakpoint's role-center height formula (min(66%,40vw)): half of that
        is min(33%,20vw), so the can's middle is 86% - min(33%,20vw) from the
        stage top. */
     .deep-nav-btn{ top:calc(86% - min(33%, 20vw)); }
-    .deep-nav-prev{ left:calc(5% + 380px + 18px); }
-    .deep-nav-next{ right:calc(6% + 190px + 18px); }
   }
 
   @media (max-width:860px){
@@ -1447,7 +1468,7 @@
       { title:'梨山高山茶', flavor:['蘭花','水梨清甜感'], specs:[['口感','極度滑順、甘甜順口'],['產地','台灣梨山茶區'],['適合時刻','深夜靜心、犒賞疲勞的自己'],['推薦人群','追求極致純粹的品茶家']], quote:'沒有多餘的雜味，只有像咬下水梨般的清甜，是一杯能讓你安靜下來的好茶。' },
       { title:'桂花烏龍', flavor:['黃金桂花','杏桃','蜂蜜','桂花蜜'], specs:[['口感','溫潤醇厚、天然甜潤'],['產地','台灣阿里山茶區'],['適合時刻','慢活下午茶、放鬆時刻'],['推薦人群','喜歡生活儀式感的人']], quote:'這是一泡讓日常慢下來的茶，不需要繁雜的調味，只需秋冬的一抹桂香。' },
       { title:'蜜香紅茶', flavor:['乾果香','木質香','熟果蜜香','荔枝'], specs:[['口感','極致甘甜、純淨、圓潤'],['產地','台灣梨山茶區'],['適合時刻','溫暖晨曦、愜意下午茶'],['推薦人群','不加糖主義、天然派']], quote:'天然的蜜香不需要糖，就是給自己最好的、無負擔的小獎勵。' },
-      { title:'紅玉紅茶（台茶18號）', flavor:['薄荷','肉桂皮','乾果'], specs:[['口感','天然涼感、層次分明'],['產地','台灣南投'],['適合時刻','清晨甦醒、慵懶假日'],['推薦人群','鮮奶茶愛好者、咖啡替代選擇']], quote:'紅玉＋鮮奶＝紅茶那堤，是我們最私心推薦的居家配方。' }
+      { title:'紅玉紅茶', flavor:['薄荷','肉桂皮','乾果'], specs:[['口感','天然涼感、層次分明'],['產地','台灣南投'],['適合時刻','清晨甦醒、慵懶假日'],['推薦人群','鮮奶茶愛好者、咖啡替代選擇']], quote:'紅玉＋鮮奶＝紅茶那堤，是我們最私心推薦的居家配方。' }
     ],
     en: [
       { title:'Sijichun Oolong', flavor:['Wild Lily','Magnolia','Wild Ginger Flower'], specs:[['Taste','Crisp, refreshing, bright'],['Origin','Nantou, Taiwan'],['Best For','Midday reset, after rich meals'],['Recommended For','Freshness lovers, tea beginners']], quote:'After a heavy meal, a cup of Sijichun\'s clean sweetness washes away the greasiness.' },
@@ -1455,7 +1476,7 @@
       { title:'Lishan High Mountain Tea', flavor:['Orchid','Pear-like Sweetness'], specs:[['Taste','Exceptionally smooth, sweet and clean'],['Origin','Lishan tea region, Taiwan'],['Best For','Late-night calm, rewarding yourself'],['Recommended For','Purists seeking refined tea']], quote:'No excess notes — just the clean sweetness of biting into a pear. A tea that quiets you down.' },
       { title:'Osmanthus Oolong', flavor:['Golden Osmanthus','Apricot','Honey','Osmanthus Nectar'], specs:[['Taste','Warm and mellow, naturally sweet'],['Origin','Alishan tea region, Taiwan'],['Best For','Slow afternoons, relaxation'],['Recommended For','Those who love ritual in daily life']], quote:'A tea that slows your day down — no elaborate seasoning needed, just a hint of autumn osmanthus.' },
       { title:'Honey Black Tea', flavor:['Dried Fruit','Woody Notes','Ripe Fruit Honey','Lychee'], specs:[['Taste','Deeply sweet, clean and round'],['Origin','Lishan tea region, Taiwan'],['Best For','Warm mornings, leisurely afternoon tea'],['Recommended For','No-sugar purists, natural-flavor lovers']], quote:'Natural honey sweetness needs no sugar — a small, guilt-free reward just for you.' },
-      { title:'Ruby Black Tea (Taiwan Tea No.18)', flavor:['Mint','Cinnamon Bark','Dried Fruit'], specs:[['Taste','Naturally cooling, layered and complex'],['Origin','Nantou, Taiwan'],['Best For','Waking up, lazy weekends'],['Recommended For','Milk tea lovers, coffee alternative seekers']], quote:'Ruby black tea + fresh milk = a tea latte — our most personal home recipe recommendation.' }
+      { title:'Ruby Black Tea', flavor:['Mint','Cinnamon Bark','Dried Fruit'], specs:[['Taste','Naturally cooling, layered and complex'],['Origin','Nantou, Taiwan'],['Best For','Waking up, lazy weekends'],['Recommended For','Milk tea lovers, coffee alternative seekers']], quote:'Ruby black tea + fresh milk = a tea latte — our most personal home recipe recommendation.' }
     ],
     ja: [
       { title:'四季春烏龍', flavor:['野ユリ','モクレン','ジンジャーフラワー'], specs:[['味わい','すっきり爽快でフレッシュ'],['産地','台湾南投'],['おすすめのタイミング','日中のリフレッシュ、食後のひと息'],['こんな方に','爽やかさ重視の方、お茶初心者']], quote:'がっつり食べた後は、四季春の爽やかな甘みが口の中をすっきりさせてくれます。' },
@@ -1463,7 +1484,7 @@
       { title:'梨山高山茶', flavor:['蘭の花','梨のような甘み'], specs:[['味わい','極めて滑らかで、清らかな甘み'],['産地','台湾梨山茶区'],['おすすめのタイミング','夜静かなひととき、頑張った自分へのご褒美に'],['こんな方に','純粋な味わいを求める通の方']], quote:'余計な雑味はなく、梨をかじったような清らかな甘みだけ。心を静めてくれる一杯です。' },
       { title:'桂花烏龍', flavor:['黄金桂花','アプリコット','はちみつ','桂花蜜'], specs:[['味わい','温かみのあるまろやかさ、自然な甘さ'],['産地','台湾阿里山茶区'],['おすすめのタイミング','ゆったりした午後、リラックスタイム'],['こんな方に','暮らしの中の儀式感を大切にする方']], quote:'日常をゆっくりにしてくれる一杯。凝った香り付けは不要、秋の桂花の香りだけで十分です。' },
       { title:'蜜香紅茶', flavor:['ドライフルーツ','ウッディノート','完熟フルーツの蜜香','ライチ'], specs:[['味わい','深い甘み、清らかでまろやか'],['産地','台湾梨山茶区'],['おすすめのタイミング','暖かな朝、のんびりした午後のお茶時間'],['こんな方に','無糖主義の方、自然な甘さが好きな方']], quote:'天然の蜜香には砂糖は不要。自分へのちょっとした、罪悪感のないご褒美に。' },
-      { title:'紅玉紅茶（台湾茶18号）', flavor:['ミント','シナモン','ドライフルーツ'], specs:[['味わい','自然な清涼感、奥行きのある味わい'],['産地','台湾南投'],['おすすめのタイミング','朝の目覚め、のんびりした休日'],['こんな方に','ミルクティー好きな方、コーヒーの代わりに']], quote:'紅玉紅茶＋牛乳＝ロイヤルミルクティー。私たちが一番おすすめしたい、おうちレシピです。' }
+      { title:'紅玉紅茶', flavor:['ミント','シナモン','ドライフルーツ'], specs:[['味わい','自然な清涼感、奥行きのある味わい'],['産地','台湾南投'],['おすすめのタイミング','朝の目覚め、のんびりした休日'],['こんな方に','ミルクティー好きな方、コーヒーの代わりに']], quote:'紅玉紅茶＋牛乳＝ロイヤルミルクティー。私たちが一番おすすめしたい、おうちレシピです。' }
     ]
   };
 
