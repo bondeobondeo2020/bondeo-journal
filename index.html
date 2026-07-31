@@ -370,7 +370,13 @@
   .deep-bg{ position:absolute; inset:0; z-index:0; }
   .deep-bg .blob{ position:absolute; width:60vw; height:60vw; border-radius:50%; filter:blur(90px); opacity:0.35; transition:background 900ms var(--ease-luxury); top:20%; left:50%; transform:translate(-50%,-50%); }
   .deep-eyebrow{ position:absolute; top:8%; left:50%; transform:translateX(-50%); z-index:3; text-align:center; }
-  .deep-carousel{ position:absolute; inset:0; z-index:2; cursor:grab; touch-action:pan-y; }
+  /* the nav buttons live in a sibling div (not inside #deepCarousel — JS
+     wipes that element's innerHTML on every render/rebuild, which would
+     delete static buttons placed inside it) that always matches this box's
+     geometry exactly, so the buttons can be positioned simply relative to
+     it and stay correctly overlaid on the carousel at every breakpoint. */
+  .deep-carousel-wrap{ position:absolute; inset:0; z-index:2; }
+  .deep-carousel{ position:absolute; inset:0; cursor:grab; touch-action:pan-y; }
   .deep-carousel:active{ cursor:grabbing; }
   .deep-item{
     position:absolute; bottom:14%; left:50%; aspect-ratio:1/1;
@@ -435,12 +441,14 @@
   .deep-price{ font-size:16px; color:var(--ink); }
   .deep-cta{ font-size:12px; letter-spacing:0.08em; color:var(--tea-brown); border-bottom:1px solid var(--amber); padding-bottom:2px; }
 
-  /* buttons now sit directly beside the centered can (left/right of it) instead
-     of tucked in the bottom-right corner — customers kept missing the two small
-     buttons down there because they weren't anywhere near the product they were
-     actually looking at. The wrapper is a full-stage overlay (pointer-events
-     off) so each button can be positioned independently and still sit above
-     the carousel; the buttons themselves re-enable pointer-events. */
+  /* buttons sit directly beside the centered can (left/right of it) instead of
+     tucked in a corner — customers kept missing small buttons that weren't
+     anywhere near the product they were looking at. .deep-nav-btns is a
+     full-carousel overlay (pointer-events off) so each button can be
+     positioned independently and still sit above the carousel; the buttons
+     themselves re-enable pointer-events. No circle badge, no solid arrow —
+     just a slim breathing chevron, closer to a quiet visual cue than a UI
+     control, that settles/brightens on hover. */
   .deep-nav-btns{ position:absolute; inset:0; z-index:30; pointer-events:none; }
   .deep-nav-btn{
     position:absolute;
@@ -455,14 +463,22 @@
        can's middle actually is: canBottom(14%) + canHeight/2, measured from
        the stage top that's 100% - 14% - min(37%,22vw). */
     top:calc(86% - min(37%, 22vw)); transform:translateY(-50%);
-    width:48px; height:48px; border-radius:50%; border:1.5px solid var(--border-soft);
-    background:rgba(245,237,225,0.55); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
-    color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer;
+    width:40px; height:40px; border:none; background:none; padding:0;
+    color:var(--ink-soft); display:flex; align-items:center; justify-content:center; cursor:pointer;
     pointer-events:auto;
-    transition:background-color .2s ease, transform .2s ease, border-color .2s ease;
+    transition:color .3s ease;
   }
-  .deep-nav-btn:hover{ background:var(--sage-pale); border-color:transparent; transform:translateY(-50%) scale(1.05); }
-  .deep-nav-btn svg{ width:20px; height:20px; }
+  .deep-nav-btn:hover{ color:var(--tea-brown); }
+  .deep-nav-btn svg{
+    width:22px; height:22px;
+    animation:navBreathe 3.2s ease-in-out infinite;
+    transition:transform .25s ease;
+  }
+  .deep-nav-btn:hover svg{ animation-play-state:paused; opacity:0.95; }
+  .deep-nav-prev:hover svg{ transform:translateX(-3px); }
+  .deep-nav-next:hover svg{ transform:translateX(3px); }
+  @keyframes navBreathe{ 0%,100%{ opacity:0.4; transform:scale(1); } 50%{ opacity:0.9; transform:scale(1.15); } }
+  @media (prefers-reduced-motion: reduce){ .deep-nav-btn svg{ animation:none; opacity:0.75; } }
   /* anchored to the SAME --panel-w / --wheel-w variables the cards themselves
      use, so the buttons stay glued just outside each card's edge (plus a
      small fixed gap) at any viewport width AND any zoom level — no more
@@ -494,7 +510,13 @@
   .testimonial .eyebrow{ display:block; margin-bottom:36px; }
   /* horizontal card wall — several real reviews visible/peeking at once instead
      of one quote at a time, snaps to center on scroll or drag */
-  .t-track{ display:flex; gap:24px; overflow-x:auto; scroll-snap-type:x mandatory; padding:6px 7vw 26px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+  /* with only a handful of real reviews, the row is usually narrower than the
+     page — default flex alignment hugs it to the left, leaving a big dead
+     gap on the right on wide screens (the "runs to the left" complaint).
+     justify-content:center centers it whenever it fits; once it's wider than
+     the viewport (more reviews, or a narrow screen) it still scrolls exactly
+     as before — this only changes what happens when there's nothing to scroll. */
+  .t-track{ display:flex; justify-content:center; gap:24px; overflow-x:auto; scroll-snap-type:x mandatory; padding:6px 7vw 26px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
   .t-track::-webkit-scrollbar{ display:none; }
   .t-card{ flex:0 0 min(540px,88vw); scroll-snap-align:center; background:#fff; border:1px solid var(--border-soft); border-radius:16px; padding:38px 34px; text-align:left; }
   .t-card .quote-mark{ font-family:'Playfair Display', serif; font-size:52px; color:var(--mauve); opacity:0.5; line-height:1; display:block; margin-bottom:6px; }
@@ -576,23 +598,26 @@
        eyebrow, with the text panel and flavor wheel following below —
        customers no longer have to scroll past the write-up to find the arrows */
     .deep-eyebrow{ position:static; transform:none; margin-bottom:16px; order:0; }
-    .deep-carousel{ position:relative; width:100%; height:300px; margin-bottom:14px; z-index:2; order:1; }
+    /* the wrap is the thing that actually occupies the 300px slot in the
+       flex column now — .deep-carousel and .deep-nav-btns both become
+       inset:0 overlays inside it, so the arrows sit right on the can itself
+       (same idea as desktop) instead of in a separate row underneath. */
+    .deep-carousel-wrap{ position:relative; width:100%; height:300px; margin-bottom:14px; z-index:2; order:1; }
+    .deep-carousel{ position:absolute; inset:0; }
     .deep-item{ bottom:0; }
     .deep-item.role-center{ height:100%; }
     .deep-item.role-left1, .deep-item.role-right1{ height:48%; }
     .deep-item.role-left2, .deep-item.role-right2{ height:32%; }
     .deep-item.role-far{ height:22%; }
-    /* desktop turns .deep-nav-btns into a full-stage overlay with each button
-       absolutely positioned + vertically centered via translateY(-50%) so they
-       can flank the can — cancel all of that here and go back to a plain
-       centered row underneath the can, like before. */
-    .deep-nav-btns{ position:static; inset:auto; display:flex; justify-content:center; gap:14px; margin-bottom:10px; z-index:2; order:2; pointer-events:auto; }
-    .deep-nav-btn{ position:static; top:auto; left:auto; right:auto; transform:none; }
-    .deep-nav-btn:hover{ transform:scale(1.05); }
-    /* the desktop rule centers this row with left:50%+translateX(-50%) (needed
-       since it's absolutely positioned there); on mobile it's back in normal
-       flow so that leftover transform was the thing shoving it off-center —
-       explicitly cancel it here */
+    /* role-center fills this box edge to edge (height:100%), so its middle is
+       simply the box's own vertical middle — no can-anchored calc() needed
+       here the way desktop needs one. Buttons sit right at the outer edges
+       of the carousel box, clear of the satellite cans peeking in from
+       32%/68%/15%/85%. */
+    .deep-nav-btns{ position:absolute; inset:0; z-index:3; pointer-events:none; }
+    .deep-nav-btn{ top:50%; left:auto; right:auto; }
+    .deep-nav-prev{ left:0; }
+    .deep-nav-next{ right:0; }
     .deep-progress{ position:static; transform:none; margin-bottom:26px; z-index:2; order:3; }
     .deep-panel{
       position:static; max-width:340px; width:100%; text-align:center;
@@ -932,7 +957,17 @@
     <div class="deep-bg"><div class="blob" id="deepBlob"></div></div>
     <span class="eyebrow deep-eyebrow" data-i18n="deepdive_eyebrow">Tasting Notes · 系列鑑賞</span>
 
-    <div class="deep-carousel" id="deepCarousel"></div>
+    <div class="deep-carousel-wrap" id="deepCarouselWrap">
+      <div class="deep-carousel" id="deepCarousel"></div>
+      <div class="deep-nav-btns">
+        <button class="deep-nav-btn deep-nav-prev" id="deepPrevBtn" aria-label="上一款" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="deep-nav-btn deep-nav-next" id="deepNextBtn" aria-label="下一款" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+      </div>
+    </div>
 
     <div class="deep-panel">
       <div class="deep-no" id="deepNo">No.01</div>
@@ -953,15 +988,6 @@
         <g id="wheelPolys"></g>
       </svg>
       <span class="deep-wheel-caption" data-i18n="wheel_citation">分類方式參考「臺灣特色茶風味輪 2.0」（新型專利 第M605950號），僅作分類方法引用，非官方合作或認證。</span>
-    </div>
-
-    <div class="deep-nav-btns">
-      <button class="deep-nav-btn deep-nav-prev" id="deepPrevBtn" aria-label="上一款" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <button class="deep-nav-btn deep-nav-next" id="deepNextBtn" aria-label="下一款" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
     </div>
 
     <div class="deep-progress" id="deepProgress"></div>
