@@ -368,11 +368,18 @@
   /* six roles for six products: center (focal) + 2 rings of 2 on either side +
      1 farthest item directly behind center — every other product is now visibly
      on stage (not just 3 of them), fading smaller/blurrier/dimmer with distance */
-  .deep-item.role-center{ height:74%; z-index:20; }
+  /* height was pure % (of the 100vh stage) — so it only ever tracked the
+     viewport's HEIGHT. Narrow the browser window (or zoom in a way that
+     changes width without changing height) and these numbers never moved,
+     which is exactly why the can looked "stuck" at one size while cards
+     and text elsewhere on the page — sized off vw/%-width — kept shrinking.
+     min(%, Xvw) makes each role track whichever dimension is tighter, so
+     the can now shrinks in step with the rest of the page on width changes too. */
+  .deep-item.role-center{ height:min(74%, 44vw); z-index:20; }
   .deep-item.role-center img{ filter:drop-shadow(0 50px 58px rgba(18,18,18,0.28)); }
-  .deep-item.role-left1, .deep-item.role-right1{ height:36%; z-index:15; filter:blur(1.5px); opacity:0.52; }
-  .deep-item.role-left2, .deep-item.role-right2{ height:24%; z-index:8; filter:blur(3px); opacity:0.3; }
-  .deep-item.role-far{ height:16%; z-index:2; filter:blur(4.5px); opacity:0.16; }
+  .deep-item.role-left1, .deep-item.role-right1{ height:min(36%, 22vw); z-index:15; filter:blur(1.5px); opacity:0.52; }
+  .deep-item.role-left2, .deep-item.role-right2{ height:min(24%, 15vw); z-index:8; filter:blur(3px); opacity:0.3; }
+  .deep-item.role-far{ height:min(16%, 10vw); z-index:2; filter:blur(4.5px); opacity:0.16; }
 
   /* frosted card behind the text: with the blurred left/right/back cans now
      sitting right behind this panel, plain text on top of them was hard to
@@ -399,10 +406,25 @@
   .deep-price{ font-size:16px; color:var(--ink); }
   .deep-cta{ font-size:12px; letter-spacing:0.08em; color:var(--tea-brown); border-bottom:1px solid var(--amber); padding-bottom:2px; }
 
-  .deep-nav-btns{ position:absolute; right:6%; bottom:8%; z-index:30; display:flex; gap:14px; }
-  .deep-nav-btn{ width:48px; height:48px; border-radius:50%; border:1.5px solid var(--border-soft); background:transparent; color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease, transform .2s ease, border-color .2s ease; }
-  .deep-nav-btn:hover{ background:var(--sage-pale); border-color:transparent; transform:scale(1.05); }
+  /* buttons now sit directly beside the centered can (left/right of it) instead
+     of tucked in the bottom-right corner — customers kept missing the two small
+     buttons down there because they weren't anywhere near the product they were
+     actually looking at. The wrapper is a full-stage overlay (pointer-events
+     off) so each button can be positioned independently and still sit above
+     the carousel; the buttons themselves re-enable pointer-events. */
+  .deep-nav-btns{ position:absolute; inset:0; z-index:30; pointer-events:none; }
+  .deep-nav-btn{
+    position:absolute; top:50%; transform:translateY(-50%);
+    width:48px; height:48px; border-radius:50%; border:1.5px solid var(--border-soft);
+    background:rgba(245,237,225,0.55); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer;
+    pointer-events:auto;
+    transition:background-color .2s ease, transform .2s ease, border-color .2s ease;
+  }
+  .deep-nav-btn:hover{ background:var(--sage-pale); border-color:transparent; transform:translateY(-50%) scale(1.05); }
   .deep-nav-btn svg{ width:20px; height:20px; }
+  .deep-nav-prev{ left:23%; }
+  .deep-nav-next{ right:23%; }
 
   .deep-progress{ position:absolute; bottom:3%; left:50%; transform:translateX(-50%); z-index:30; display:flex; gap:8px; }
   .deep-progress span{ width:22px; height:2px; background:var(--border-soft); cursor:pointer; transition:background .3s ease; }
@@ -484,7 +506,9 @@
        little so they keep clear of each other; the ≤860px mobile layout below
        overrides both of these again with its own stacked-flow sizing */
     .deep-wheel-panel{ width:190px; }
-    .deep-item.role-center{ height:66%; }
+    .deep-item.role-center{ height:min(66%, 40vw); }
+    .deep-nav-prev{ left:15%; }
+    .deep-nav-next{ right:15%; }
   }
 
   @media (max-width:860px){
@@ -510,7 +534,13 @@
     .deep-item.role-left1, .deep-item.role-right1{ height:48%; }
     .deep-item.role-left2, .deep-item.role-right2{ height:32%; }
     .deep-item.role-far{ height:22%; }
-    .deep-nav-btns{ position:static; margin-bottom:10px; z-index:2; order:2; }
+    /* desktop turns .deep-nav-btns into a full-stage overlay with each button
+       absolutely positioned + vertically centered via translateY(-50%) so they
+       can flank the can — cancel all of that here and go back to a plain
+       centered row underneath the can, like before. */
+    .deep-nav-btns{ position:static; inset:auto; display:flex; justify-content:center; gap:14px; margin-bottom:10px; z-index:2; order:2; pointer-events:auto; }
+    .deep-nav-btn{ position:static; top:auto; left:auto; right:auto; transform:none; }
+    .deep-nav-btn:hover{ transform:scale(1.05); }
     /* the desktop rule centers this row with left:50%+translateX(-50%) (needed
        since it's absolutely positioned there); on mobile it's back in normal
        flow so that leftover transform was the thing shoving it off-center —
@@ -878,10 +908,10 @@
     </div>
 
     <div class="deep-nav-btns">
-      <button class="deep-nav-btn" id="deepPrevBtn" aria-label="上一款" type="button">
+      <button class="deep-nav-btn deep-nav-prev" id="deepPrevBtn" aria-label="上一款" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <button class="deep-nav-btn" id="deepNextBtn" aria-label="下一款" type="button">
+      <button class="deep-nav-btn deep-nav-next" id="deepNextBtn" aria-label="下一款" type="button">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
       </button>
     </div>
@@ -2194,6 +2224,21 @@
         if(scrollTimer) clearTimeout(scrollTimer);
         scrollTimer = setTimeout(updateActiveFromScroll, 80);
       }, {passive:true});
+      /* this track scrolls horizontally by an absolute pixel offset (scrollLeft).
+         Resize the window (or change zoom/font-size in a way that reflows the
+         page) and the card widths recompute, but scrollLeft itself doesn't move —
+         so the previously-centered card silently drifts toward the left edge of
+         the now-narrower track. Re-snap to the active card's new position
+         whenever the window resizes so it always stays centered. */
+      var resizeTimer = null;
+      window.addEventListener('resize', function(){
+        if(resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function(){
+          var active = dotsWrap.querySelector('.t-dot.active');
+          var i = active ? +active.dataset.i : 0;
+          track.scrollLeft = i * cardStep();
+        }, 120);
+      });
       render();
       window.__rerenderTestimonial = render;
     } catch(e){ console.warn('testimonial init failed', e); }
