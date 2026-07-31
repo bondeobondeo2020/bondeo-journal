@@ -379,12 +379,11 @@
   .deep-title{ font-size:32px; color:var(--ink); margin-bottom:16px; }
   .deep-flavor{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
   .deep-flavor span{ font-size:13px; letter-spacing:0.04em; padding:5px 14px; border-radius:20px; border:1px solid var(--border-soft); color:var(--ink-soft); }
-  /* single column instead of a 2x2 grid: a half-width column was too narrow for
-     several of the spec values, forcing an awkward mid-phrase wrap to a second
-     line and stretching the panel taller than it needs to be. Full width lets
-     each line lay out on one line for any of the three languages. */
-  .deep-specs{ display:grid; grid-template-columns:1fr; gap:8px; margin-bottom:20px; }
-  .deep-specs div{ font-size:14px; color:var(--ink-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  /* back to the 2x2 grid layout (口感 | 產地 on row 1, 適合時刻 | 推薦人群 on row 2)
+     — a touch smaller font and tighter column gap than before so longer spec
+     values have a better chance of fitting one column's width on one line */
+  .deep-specs{ display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; margin-bottom:20px; }
+  .deep-specs div{ font-size:13.5px; color:var(--ink-soft); }
   .deep-specs b{ color:var(--ink); font-weight:500; }
   .deep-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:17px; color:var(--ink); max-width:360px; margin-bottom:22px; }
   .deep-foot{ display:flex; align-items:center; gap:22px; }
@@ -514,7 +513,7 @@
       z-index:2; margin-bottom:24px; order:4;
     }
     .deep-flavor, .deep-foot{ justify-content:center; }
-    .deep-specs{ text-align:left; max-width:300px; margin-left:auto; margin-right:auto; }
+    .deep-specs{ text-align:left; max-width:320px; margin-left:auto; margin-right:auto; }
     .deep-wheel-panel{
       position:static; width:210px; margin:0 0 4px; z-index:2; pointer-events:auto; order:5;
     }
