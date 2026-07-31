@@ -414,7 +414,18 @@
      the carousel; the buttons themselves re-enable pointer-events. */
   .deep-nav-btns{ position:absolute; inset:0; z-index:30; pointer-events:none; }
   .deep-nav-btn{
-    position:absolute; top:50%; transform:translateY(-50%);
+    position:absolute;
+    /* the can is anchored bottom:14% with height:min(74%,44vw) (see
+       .deep-item.role-center below) — it is NOT vertically centered in the
+       stage. A flat top:50% only happened to line up while the 74% term was
+       binding; once the 44vw cap takes over (wide-but-shorter viewports) the
+       can shrinks and its middle drifts down toward its bottom:14% anchor
+       while a flat 50% button stays put — that's what produced buttons
+       floating disconnected above the can. Mirror the can's own
+       center-of-mass formula here so the buttons always track wherever the
+       can's middle actually is: canBottom(14%) + canHeight/2, measured from
+       the stage top that's 100% - 14% - min(37%,22vw). */
+    top:calc(86% - min(37%, 22vw)); transform:translateY(-50%);
     width:48px; height:48px; border-radius:50%; border:1.5px solid var(--border-soft);
     background:rgba(245,237,225,0.55); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer;
@@ -518,6 +529,11 @@
        overrides both of these again with its own stacked-flow sizing */
     .deep-wheel-panel{ width:190px; }
     .deep-item.role-center{ height:min(66%, 40vw); }
+    /* same center-of-mass fix as the base rule, updated for this
+       breakpoint's role-center height formula (min(66%,40vw)): half of that
+       is min(33%,20vw), so the can's middle is 86% - min(33%,20vw) from the
+       stage top. */
+    .deep-nav-btn{ top:calc(86% - min(33%, 20vw)); }
     .deep-nav-prev{ left:calc(5% + 380px + 18px); }
     .deep-nav-next{ right:calc(6% + 190px + 18px); }
   }
