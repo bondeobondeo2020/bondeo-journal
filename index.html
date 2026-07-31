@@ -455,15 +455,35 @@
   }
 
   @media (max-width:860px){
-    .deep-ghost{ font-size:clamp(90px, 40vw, 200px); top:9%; }
-    .deep-wheel-panel{ display:none; }
-    .deep-panel{ left:5%; right:5%; max-width:none; bottom:22%; text-align:center; }
+    /* mobile: the desktop version is one full-bleed absolute-positioned overlay
+       (ghost number behind, image + text panel + wheel all stacked on top of
+       each other by z-index) — that only has room to breathe on a wide screen.
+       On mobile we drop the overlay entirely and stack everything as normal
+       document flow instead: eyebrow, then tea can, then text, then wheel,
+       then nav/dots — nothing overlapping, nothing racing for the same space. */
+    .deep-stage{
+      height:auto; min-height:0; max-height:none;
+      display:flex; flex-direction:column; align-items:center;
+      padding:56px 24px 40px;
+    }
+    .deep-ghost{ display:none; }
+    .deep-eyebrow{ position:static; transform:none; margin-bottom:16px; }
+    .deep-carousel{ position:relative; width:100%; height:220px; margin-bottom:6px; z-index:2; }
+    .deep-item{ bottom:0; }
+    .deep-item.role-center{ height:100%; }
+    .deep-item.role-left, .deep-item.role-right{ height:60%; }
+    .deep-item.role-back{ height:48%; }
+    .deep-panel{
+      position:static; max-width:340px; width:100%; text-align:center;
+      z-index:2; margin-bottom:24px;
+    }
     .deep-flavor, .deep-foot{ justify-content:center; }
     .deep-specs{ text-align:left; max-width:280px; margin-left:auto; margin-right:auto; }
-    .deep-nav-btns{ right:5%; bottom:13%; }
-    .deep-item.role-center{ height:36%; bottom:24%; }
-    .deep-item.role-left, .deep-item.role-right{ height:18%; bottom:8%; }
-    .deep-item.role-back{ height:15%; bottom:8%; }
+    .deep-wheel-panel{
+      position:static; width:210px; margin:0 0 22px; z-index:2; pointer-events:auto;
+    }
+    .deep-nav-btns{ position:static; margin-bottom:14px; z-index:2; }
+    .deep-progress{ position:static; margin-bottom:4px; z-index:2; }
     /* card wall on mobile too: swipe through the 3 featured articles instead of
        stacking them full-height one after another */
     .j-grid{ display:flex; grid-template-columns:none; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory; padding:4px 7vw 10px; margin:0 -40px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
