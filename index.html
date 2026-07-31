@@ -328,73 +328,70 @@
   .lineup-strip a{ font-size:12px; letter-spacing:0.04em; color:var(--sage-deep); background:var(--sage-pale); padding:9px 18px; border-radius:20px; transition:background .3s ease, transform .4s var(--ease-luxury); display:inline-block; }
   .lineup-strip a:hover{ background:var(--sage); color:#fff; transform:translateY(-2px); }
 
-  /* pinned product deep-dive */
-  .deep-scroll{ height:620vh; position:relative; }
-  .deep-sticky{ position:sticky; top:0; height:100vh; overflow:hidden; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  /* product carousel merged with flavor wheel (click/swipe, replaces the old pinned-scroll deep-dive) */
+  .deep-scroll{ position:relative; }
+  .deep-stage{ position:relative; height:100vh; min-height:640px; max-height:920px; overflow:hidden; display:flex; align-items:center; justify-content:center; }
   .deep-bg{ position:absolute; inset:0; z-index:0; }
-  .deep-bg .blob{ position:absolute; width:60vw; height:60vw; border-radius:50%; filter:blur(90px); opacity:0.35; transition:background 1s ease; top:20%; left:50%; transform:translate(-50%,-50%); }
-  .deep-eyebrow{ position:relative; z-index:2; text-align:center; }
-  .deep-grid{ position:relative; z-index:2; width:100%; max-width:1080px; margin:0 auto; padding:0 56px; display:grid; grid-template-columns:0.85fr 1.15fr; gap:64px; align-items:center; }
-  .deep-media{ display:flex; align-items:center; justify-content:center; }
-  .deep-frame{ width:360px; height:440px; border-radius:4px; overflow:hidden; background:var(--sage-pale); position:relative; transition:transform .5s var(--ease-luxury); transform-style:preserve-3d; will-change:transform; }
-  .deep-frame img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .08s linear; will-change:transform; }
-  .deep-no{ font-family:'Playfair Display', serif; font-style:italic; color:var(--mauve-deep); font-size:16px; letter-spacing:0.12em; margin-bottom:10px; opacity:0; transition:opacity .5s ease; }
-  .deep-title{ font-size:32px; color:var(--ink); margin-bottom:16px; opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease; }
+  .deep-bg .blob{ position:absolute; width:60vw; height:60vw; border-radius:50%; filter:blur(90px); opacity:0.35; transition:background 900ms var(--ease-luxury); top:20%; left:50%; transform:translate(-50%,-50%); }
+  .deep-eyebrow{ position:absolute; top:8%; left:50%; transform:translateX(-50%); z-index:3; text-align:center; }
+  .deep-ghost{
+    position:absolute; inset-inline:0; top:14%; z-index:1;
+    text-align:center; pointer-events:none; user-select:none;
+    font-family:'Playfair Display', serif; font-style:italic; font-weight:600;
+    font-size:clamp(120px, 22vw, 320px); line-height:1; color:rgba(18,18,18,0.045);
+    transition:color 700ms ease;
+  }
+  .deep-carousel{ position:absolute; inset:0; z-index:2; }
+  .deep-item{
+    position:absolute; bottom:14%; left:50%; aspect-ratio:1/1;
+    transition:transform 700ms var(--ease-luxury), filter 700ms var(--ease-luxury),
+               opacity 700ms var(--ease-luxury), left 700ms var(--ease-luxury),
+               height 700ms var(--ease-luxury), bottom 700ms var(--ease-luxury);
+    will-change:transform, filter, opacity, left;
+  }
+  .deep-item img{
+    width:100%; height:100%; object-fit:contain; object-position:center bottom;
+    display:block; pointer-events:none;
+    filter:drop-shadow(0 26px 34px rgba(18,18,18,0.18));
+  }
+  .deep-item.role-center{ height:52%; z-index:20; }
+  .deep-item.role-center img{ filter:drop-shadow(0 34px 42px rgba(18,18,18,0.22)); }
+  .deep-item.role-left, .deep-item.role-right{ height:28%; z-index:10; filter:blur(1.5px); opacity:0.55; }
+  .deep-item.role-back{ height:22%; z-index:5; filter:blur(3px); opacity:0.32; }
+  .deep-item.role-hidden{ height:18%; opacity:0; z-index:1; pointer-events:none; }
+
+  .deep-panel{ position:absolute; bottom:8%; left:6%; z-index:30; max-width:360px; }
+  .deep-no{ font-family:'Playfair Display', serif; font-style:italic; color:var(--mauve-deep); font-size:16px; letter-spacing:0.12em; margin-bottom:10px; }
+  .deep-title{ font-size:32px; color:var(--ink); margin-bottom:16px; }
   .deep-flavor{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
-  .deep-flavor span{ font-size:13px; letter-spacing:0.04em; padding:5px 14px; border-radius:20px; border:1px solid var(--border-soft); color:var(--ink-soft); opacity:0; transform:translateY(8px); transition:opacity .4s ease, transform .4s ease; }
-  .deep-specs{ display:grid; grid-template-columns:1fr 1fr; gap:10px 24px; margin-bottom:20px; opacity:0; transform:translateY(12px); transition:opacity .6s ease .05s, transform .6s ease .05s; }
+  .deep-flavor span{ font-size:13px; letter-spacing:0.04em; padding:5px 14px; border-radius:20px; border:1px solid var(--border-soft); color:var(--ink-soft); }
+  .deep-specs{ display:grid; grid-template-columns:1fr 1fr; gap:10px 24px; margin-bottom:20px; }
   .deep-specs div{ font-size:14px; color:var(--ink-soft); }
   .deep-specs b{ color:var(--ink); font-weight:500; }
-  .deep-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:18px; color:var(--ink); max-width:460px; margin-bottom:22px; opacity:0; transform:translateY(12px); transition:opacity .6s ease .1s, transform .6s ease .1s; }
-  .deep-foot{ display:flex; align-items:center; gap:22px; opacity:0; transform:translateY(12px); transition:opacity .6s ease .15s, transform .6s ease .15s; }
+  .deep-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:17px; color:var(--ink); max-width:360px; margin-bottom:22px; }
+  .deep-foot{ display:flex; align-items:center; gap:22px; }
   .deep-price{ font-size:16px; color:var(--ink); }
   .deep-cta{ font-size:12px; letter-spacing:0.08em; color:var(--tea-brown); border-bottom:1px solid var(--amber); padding-bottom:2px; }
-  .deep-progress{ position:relative; z-index:2; display:flex; gap:8px; margin-top:36px; }
-  .deep-progress span{ width:22px; height:2px; background:var(--border-soft); transition:background .3s ease; }
+
+  .deep-nav-btns{ position:absolute; right:6%; bottom:8%; z-index:30; display:flex; gap:14px; }
+  .deep-nav-btn{ width:48px; height:48px; border-radius:50%; border:1.5px solid var(--border-soft); background:transparent; color:var(--ink); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color .2s ease, transform .2s ease, border-color .2s ease; }
+  .deep-nav-btn:hover{ background:var(--sage-pale); border-color:transparent; transform:scale(1.05); }
+  .deep-nav-btn svg{ width:20px; height:20px; }
+
+  .deep-progress{ position:absolute; bottom:3%; left:50%; transform:translateX(-50%); z-index:30; display:flex; gap:8px; }
+  .deep-progress span{ width:22px; height:2px; background:var(--border-soft); cursor:pointer; transition:background .3s ease; }
   .deep-progress span.active{ background:var(--amber); }
 
-  /* mobile: replace pinned 620vh scroll-jack with a normal scrollable list (avoids trapping users in a long swipe-through) */
-  .deep-mobile-list{ display:none; }
-  .dm-card{ background:#fff; border-radius:12px; padding:28px 24px; margin:0 20px 20px; box-shadow:0 2px 14px rgba(18,18,18,0.06); }
-  .dm-card-frame{ width:100%; aspect-ratio:4/3; border-radius:8px; overflow:hidden; margin-bottom:18px; background:var(--sage-pale); }
-  .dm-card-frame img{ width:100%; height:100%; object-fit:cover; }
-  .dm-card-no{ font-family:'Playfair Display', serif; font-style:italic; color:var(--mauve-deep); font-size:14px; letter-spacing:0.1em; margin-bottom:6px; }
-  .dm-card h3{ font-size:22px; color:var(--ink); margin-bottom:12px; }
-  .dm-card-flavor{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
-  .dm-card-flavor span{ font-size:12px; letter-spacing:0.03em; padding:4px 12px; border-radius:20px; border:1px solid var(--border-soft); color:var(--ink-soft); }
-  .dm-card-specs{ display:grid; grid-template-columns:1fr 1fr; gap:8px 16px; margin-bottom:16px; }
-  .dm-card-specs div{ font-size:13px; color:var(--ink-soft); }
-  .dm-card-specs b{ color:var(--ink); font-weight:500; }
-  .dm-card-quote{ font-family:'Playfair Display', serif; font-style:italic; font-size:15px; color:var(--ink); margin-bottom:18px; }
-  .dm-card-foot{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
-  .dm-card-price{ font-size:15px; color:var(--ink); }
-  .dm-card-cta{ font-size:12px; letter-spacing:0.06em; color:var(--tea-brown); border-bottom:1px solid var(--amber); padding-bottom:2px; white-space:nowrap; }
-
-  /* flavor wheel */
-  .wheel-section{ padding:60px 0 120px; text-align:center; }
-  .wheel-section h2{font-size:30px; color:var(--ink); margin-bottom:10px;}
-  .wheel-section .sub{ color:var(--ink-soft); font-size:15px; margin-bottom:50px; max-width:640px; margin-left:auto; margin-right:auto; }
-  .wheel-layout{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; text-align:left; }
-  .wheel-svg-wrap{ display:flex; justify-content:center; }
-  .wheel-svg-wrap svg{ width:100%; max-width:420px; height:auto; }
+  /* flavor wheel, merged into the same carousel section: SVG grid/axis/poly classes shared with #wheelSvg */
+  .deep-wheel-panel{ position:absolute; top:9%; right:6%; z-index:25; width:240px; text-align:center; pointer-events:none; }
+  .deep-wheel-label{ display:block; font-family:'Playfair Display', serif; font-style:italic; font-size:12px; letter-spacing:0.14em; text-transform:uppercase; color:var(--mauve-deep); margin-bottom:6px; }
+  .deep-wheel-svg{ width:100%; height:auto; overflow:visible; }
+  .deep-wheel-caption{ font-size:11px; color:var(--ink-soft); opacity:0.75; margin-top:8px; display:block; }
   .wheel-grid-line{ fill:none; stroke:var(--border-soft); stroke-width:1; }
   .wheel-axis-line{ stroke:var(--border-soft); stroke-width:1; }
-  .wheel-axis-label{ font-size:11px; fill:var(--ink-soft); font-family:'Noto Sans TC', sans-serif; }
-  .wheel-poly{ fill-opacity:0.22; stroke-width:2; opacity:0; transition:opacity .5s ease; }
+  .wheel-axis-label{ font-size:19px; fill:var(--ink-soft); font-family:'Noto Sans TC', sans-serif; }
+  .wheel-poly{ fill:var(--tea-brown); stroke:var(--tea-brown); fill-opacity:0.28; stroke-width:2.5; opacity:0; transition:opacity 700ms var(--ease-luxury); }
   .wheel-poly.active{ opacity:1; }
-  /* the whole chart grows outward from center once the section scrolls into view —
-     reuses the sitewide .reveal/.in-view system already on .wheel-section, no extra JS needed */
-  #wheelPolys{ transform-origin:200px 200px; transform:scale(0.35); opacity:0; transition:transform 1s cubic-bezier(.16,1,.3,1) .1s, opacity .8s ease .1s; }
-  .wheel-section.in-view #wheelPolys{ transform:scale(1); opacity:1; }
-  .wheel-chips{ display:flex; flex-direction:column; gap:10px; }
-  .wheel-chip{ display:flex; align-items:center; gap:12px; padding:12px 16px; border:1px solid var(--border-soft); border-radius:30px; font-size:14px; color:var(--ink-soft); transition:border-color .25s ease, background .25s ease, transform .15s ease; user-select:none; cursor:pointer; }
-  .wheel-chip:hover{ border-color:var(--border-strong, #b7ae9c); }
-  .wheel-chip:active{ transform:scale(0.97); }
-  .wheel-chip .dot{ width:10px; height:10px; border-radius:50%; flex-shrink:0; }
-  .wheel-chip .wname{ color:var(--ink); flex:1; }
-  .wheel-chip .wnote{ font-size:11px; color:var(--ink-soft); }
-  .wheel-chip.active{ background:var(--sage-pale); border-color:transparent; }
-  .wheel-hint{ font-size:12px; color:var(--ink-soft); margin-top:16px; }
 
   .collection-cta{ text-align:center; padding:100px 0; }
   .collection-cta p{ color:var(--ink-soft); font-size:15px; margin-bottom:26px; }
@@ -458,11 +455,15 @@
   }
 
   @media (max-width:860px){
-    .deep-grid{grid-template-columns:1fr; text-align:center;}
-    .deep-frame{width:260px; height:320px; margin:0 auto;}
-    .deep-flavor, .deep-foot{justify-content:center;}
-    .deep-specs{text-align:left; max-width:280px; margin-left:auto; margin-right:auto;}
-    .wheel-layout{grid-template-columns:1fr;}
+    .deep-ghost{ font-size:clamp(90px, 40vw, 200px); top:9%; }
+    .deep-wheel-panel{ display:none; }
+    .deep-panel{ left:5%; right:5%; max-width:none; bottom:22%; text-align:center; }
+    .deep-flavor, .deep-foot{ justify-content:center; }
+    .deep-specs{ text-align:left; max-width:280px; margin-left:auto; margin-right:auto; }
+    .deep-nav-btns{ right:5%; bottom:13%; }
+    .deep-item.role-center{ height:36%; bottom:24%; }
+    .deep-item.role-left, .deep-item.role-right{ height:18%; bottom:8%; }
+    .deep-item.role-back{ height:15%; bottom:8%; }
     /* card wall on mobile too: swipe through the 3 featured articles instead of
        stacking them full-height one after another */
     .j-grid{ display:flex; grid-template-columns:none; gap:18px; overflow-x:auto; scroll-snap-type:x mandatory; padding:4px 7vw 10px; margin:0 -40px; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
@@ -510,10 +511,6 @@
     .promo-bar{padding:9px 40px; font-size:12.5px; gap:8px;}
     .promo-bar a{display:none;}
     .quick-buy{right:16px; bottom:16px; padding:12px 18px; font-size:12px;}
-    /* mobile: swap the pinned 620vh scroll-jack section for a normal scrollable card list */
-    .deep-scroll{ height:auto !important; }
-    .deep-sticky{ display:none; }
-    .deep-mobile-list{ display:block; }
   }
 
   /* ===== 2026-07-29 開場章節敘事（v4：整頁換場分頁效果、品味章改3格範例）===== */
@@ -790,47 +787,46 @@
   </div>
 </section>
 
+<a id="wheel" aria-hidden="true" style="display:block; height:0; overflow:hidden;"></a>
 <section class="deep-scroll" id="deepdive">
-  <div class="deep-sticky">
+  <div class="deep-stage" id="deepStage">
     <div class="deep-bg"><div class="blob" id="deepBlob"></div></div>
+    <div class="deep-ghost" id="deepGhost">No.01</div>
     <span class="eyebrow deep-eyebrow" data-i18n="deepdive_eyebrow">Tasting Notes · 系列鑑賞</span>
-    <div class="deep-grid">
-      <div class="deep-media"><div class="deep-frame"><img id="deepImg" src="assets/sijichun.webp" alt="四季春" loading="lazy"></div></div>
-      <div class="deep-info">
-        <div class="deep-no" id="deepNo">No.01</div>
-        <h2 class="deep-title" id="deepTitle">四季春</h2>
-        <div class="deep-flavor" id="deepFlavor"></div>
-        <div class="deep-specs" id="deepSpecs"></div>
-        <p class="deep-quote" id="deepQuote"></p>
-        <div class="deep-foot">
-          <span class="deep-price" id="deepPrice">NT$ 450 起</span>
-          <a class="deep-cta" id="deepCta" href="https://www.bondeo.com.tw/collections/lifestyle-tea/products/no1-four-seasons-tea" target="_blank" rel="noopener">加入我的茶生活 →</a>
-        </div>
-      </div>
-    </div>
-    <div class="deep-progress" id="deepProgress"></div>
-  </div>
-  <div class="deep-mobile-list" id="deepMobileList"></div>
-</section>
 
-<section class="wheel-section reveal" id="wheel">
-  <div class="wrap">
-    <span class="eyebrow">Flavor Wheel</span>
-    <h2 data-i18n="wheel_h2">風味交叉比較</h2>
-    <p class="sub" data-i18n="wheel_sub">依循「臺灣特色茶風味輪 2.0」（農業部茶及飲料作物改良場）的香氣分類方式，將六款茶拆解為五個核心氣味維度。點下方任一茶名即可加入比較，最多同時疊圖 3 款。</p>
-    <div class="wheel-layout">
-      <div class="wheel-svg-wrap">
-        <svg viewBox="0 0 400 400" id="wheelSvg">
-          <g id="wheelGrid"></g>
-          <g id="wheelPolys"></g>
-        </svg>
-      </div>
-      <div>
-        <div class="wheel-chips" id="wheelChips"></div>
-        <p class="wheel-hint" data-i18n="wheel_hint">已選取的茶款會用色塊疊在雷達圖上，方便比較風味差異</p>
-        <p class="wheel-hint" style="margin-top:4px; opacity:0.75;" data-i18n="wheel_citation">分類方式參考「臺灣特色茶風味輪 2.0」（新型專利 第M605950號），僅作分類方法引用，非官方合作或認證。</p>
+    <div class="deep-carousel" id="deepCarousel"></div>
+
+    <div class="deep-panel">
+      <div class="deep-no" id="deepNo">No.01</div>
+      <h2 class="deep-title" id="deepTitle">四季春</h2>
+      <div class="deep-flavor" id="deepFlavor"></div>
+      <div class="deep-specs" id="deepSpecs"></div>
+      <p class="deep-quote" id="deepQuote"></p>
+      <div class="deep-foot">
+        <span class="deep-price" id="deepPrice">NT$ 450 起</span>
+        <a class="deep-cta" id="deepCta" href="https://www.bondeo.com.tw/collections/lifestyle-tea/products/no1-four-seasons-tea" target="_blank" rel="noopener">加入我的茶生活 →</a>
       </div>
     </div>
+
+    <div class="deep-wheel-panel" id="deepWheelPanel">
+      <span class="deep-wheel-label" data-i18n="nav_wheel">風味比較</span>
+      <svg class="deep-wheel-svg" viewBox="0 0 400 400" id="wheelSvg">
+        <g id="wheelGrid"></g>
+        <g id="wheelPolys"></g>
+      </svg>
+      <span class="deep-wheel-caption" data-i18n="wheel_citation">分類方式參考「臺灣特色茶風味輪 2.0」（新型專利 第M605950號），僅作分類方法引用，非官方合作或認證。</span>
+    </div>
+
+    <div class="deep-nav-btns">
+      <button class="deep-nav-btn" id="deepPrevBtn" aria-label="上一款" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="deep-nav-btn" id="deepNextBtn" aria-label="下一款" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+    <div class="deep-progress" id="deepProgress"></div>
   </div>
 </section>
 
@@ -1800,100 +1796,175 @@
     } catch(e){ console.warn('counters failed', e); }
   })();
 
-  /* --- pinned product deep-dive (isolated, locale-aware) --- */
+  /* --- product carousel merged with flavor wheel (isolated, locale-aware) ---
+     replaces the old pinned 620vh scroll-jack deep-dive: customers click/swipe
+     left-right through the six teas instead of scrolling through them, and the
+     flavor wheel (below) follows whichever product is currently centered */
   (function(){
     try{
-      var deepScroll = document.getElementById('deepdive');
-      var deepImg = document.getElementById('deepImg');
-      var deepNo = document.getElementById('deepNo');
-      var deepTitle = document.getElementById('deepTitle');
-      var deepFlavor = document.getElementById('deepFlavor');
-      var deepSpecs = document.getElementById('deepSpecs');
-      var deepQuote = document.getElementById('deepQuote');
-      var deepPrice = document.getElementById('deepPrice');
-      var deepCta = document.getElementById('deepCta');
-      var deepBlob = document.getElementById('deepBlob');
-      var deepFootEl = document.querySelector('.deep-foot');
+      var stage = document.getElementById('deepStage');
+      var carouselHost = document.getElementById('deepCarousel');
+      var ghostEl = document.getElementById('deepGhost');
+      var blobEl = document.getElementById('deepBlob');
+      var panelNo = document.getElementById('deepNo');
+      var panelTitle = document.getElementById('deepTitle');
+      var panelFlavor = document.getElementById('deepFlavor');
+      var panelSpecs = document.getElementById('deepSpecs');
+      var panelQuote = document.getElementById('deepQuote');
+      var panelPrice = document.getElementById('deepPrice');
+      var panelCta = document.getElementById('deepCta');
       var progressWrap = document.getElementById('deepProgress');
-      products.forEach(function(){ var s=document.createElement('span'); progressWrap.appendChild(s); });
-      var progressDots = progressWrap.querySelectorAll('span');
-      progressDots[0].classList.add('active');
-      var currentDeepIdx = -1;
+      var prevBtn = document.getElementById('deepPrevBtn');
+      var nextBtn = document.getElementById('deepNextBtn');
+      if(!stage || !carouselHost) return;
 
-      function renderDeep(i){
-        currentDeepIdx = i;
-        var p = products[i];
-        [deepImg, deepNo, deepTitle, deepSpecs, deepQuote, deepFootEl].forEach(function(el){ el.style.opacity = 0; if(el!==deepImg && el!==deepNo){ el.style.transform='translateY(12px)'; } });
-        deepFlavor.querySelectorAll('span').forEach(function(s){ s.style.opacity = 0; });
-        setTimeout(function(){
-          deepImg.src = p.img;
-          deepNo.textContent = p.no;
-          deepTitle.textContent = p.title;
-          deepFlavor.innerHTML = p.flavor.map(function(f){ return '<span>'+f+'</span>'; }).join('');
-          deepSpecs.innerHTML = p.specs.map(function(s){ return '<div><b>'+s[0]+'</b><br>'+s[1]+'</div>'; }).join('');
-          deepQuote.textContent = '「' + p.quote + '」';
-          deepPrice.textContent = p.price;
-          deepCta.href = p.cta;
-          deepBlob.style.background = p.blob;
-          [deepImg, deepNo, deepTitle, deepSpecs, deepQuote, deepFootEl].forEach(function(el){ el.style.opacity = 1; el.style.transform='translateY(0)'; });
-          deepFlavor.querySelectorAll('span').forEach(function(s,si){ setTimeout(function(){ s.style.opacity = 1; s.style.transform='translateY(0)'; }, si*100); });
-        }, 220);
-        progressDots.forEach(function(d,di){ d.classList.toggle('active', di===i); });
+      /* background-removed cutout renders (separate from the opaque assets/*.webp
+         photos used by JSON-LD + elsewhere) so the carousel can float them over
+         the blurred color blob instead of showing them in a photo frame */
+      var CUTOUT_IMGS = ['assets/sijichun-cutout.webp','assets/jinxuan-cutout.webp','assets/lishan-cutout.webp','assets/guihua-cutout.webp','assets/mixiang-cutout.webp','assets/hongyu-cutout.webp'];
+
+      var N = products.length;
+      var activeIndex = 0;
+      window.__deepActiveIndex = 0;
+      var isAnimating = false;
+      var ANIM_MS = 700;
+      var items = [];
+      var dots = [];
+
+      function buildItems(){
+        carouselHost.innerHTML = '';
+        products.forEach(function(p, i){
+          var im = new Image(); im.src = CUTOUT_IMGS[i] || p.img;
+          var fig = document.createElement('div');
+          fig.className = 'deep-item';
+          fig.dataset.index = i;
+          var img = document.createElement('img');
+          img.src = CUTOUT_IMGS[i] || p.img;
+          img.alt = p.title;
+          img.draggable = false;
+          fig.appendChild(img);
+          carouselHost.appendChild(fig);
+        });
+        items = Array.prototype.slice.call(carouselHost.children);
       }
-      function setDeep(i){
-        if(i === currentDeepIdx) return;
-        renderDeep(i);
+
+      function buildDots(){
+        progressWrap.innerHTML = '';
+        dots = products.map(function(p, i){
+          var d = document.createElement('span');
+          if(i === activeIndex) d.classList.add('active');
+          d.addEventListener('click', function(){ goTo(i); });
+          progressWrap.appendChild(d);
+          return d;
+        });
       }
 
-      var deepMQ = window.matchMedia('(max-width:860px)');
-      function isDeepMobile(){ return deepMQ.matches; }
-
-      var deepMobileListEl = document.getElementById('deepMobileList');
-      function renderDeepMobileList(){
-        if(!deepMobileListEl) return;
-        deepMobileListEl.innerHTML = products.map(function(p){
-          return '' +
-            '<div class="dm-card">' +
-              '<div class="dm-card-frame"><img src="'+p.img+'" alt="'+p.title+'" loading="lazy"></div>' +
-              '<div class="dm-card-no">'+p.no+'</div>' +
-              '<h3>'+p.title+'</h3>' +
-              '<div class="dm-card-flavor">'+p.flavor.map(function(f){ return '<span>'+f+'</span>'; }).join('')+'</div>' +
-              '<div class="dm-card-specs">'+p.specs.map(function(s){ return '<div><b>'+s[0]+'</b><br>'+s[1]+'</div>'; }).join('')+'</div>' +
-              '<div class="dm-card-quote">「'+p.quote+'」</div>' +
-              '<div class="dm-card-foot"><span class="dm-card-price">'+p.price+'</span><a class="dm-card-cta" href="'+p.cta+'">'+deepCta.textContent+'</a></div>' +
-            '</div>';
-        }).join('');
+      function roleFor(i){
+        var center = activeIndex;
+        var left = (activeIndex + N - 1) % N;
+        var right = (activeIndex + 1) % N;
+        var back = (activeIndex + 2) % N;
+        if(i === center) return 'center';
+        if(i === left) return 'left';
+        if(i === right) return 'right';
+        if(i === back) return 'back';
+        return 'hidden';
       }
-      renderDeepMobileList();
 
-      window.__registerScroll(function(){
-        if(isDeepMobile()) return;
-        var rect = deepScroll.getBoundingClientRect();
-        var total = rect.height - window.innerHeight;
-        var progress = Math.min(Math.max(-rect.top / total, 0), 0.999);
-        var scale = 1.0 + progress * 0.12;
-        deepImg.style.transform = 'scale(' + Math.min(scale,1.18).toFixed(3) + ')';
-        var idx = Math.floor(progress * products.length);
-        if(idx > products.length-1) idx = products.length-1;
-        if(rect.top < window.innerHeight && rect.bottom > 0){ setDeep(idx); }
+      function render(){
+        var p = products[activeIndex];
+        if(blobEl) blobEl.style.background = p.blob;
+        if(ghostEl) ghostEl.textContent = p.no;
+
+        items.forEach(function(el, i){
+          var role = roleFor(i);
+          el.className = 'deep-item role-' + role;
+          if(role === 'center'){ el.style.left = '50%'; el.style.transform = 'translateX(-50%) scale(1)'; }
+          else if(role === 'left'){ el.style.left = '24%'; el.style.transform = 'translateX(-50%) scale(1)'; }
+          else if(role === 'right'){ el.style.left = '76%'; el.style.transform = 'translateX(-50%) scale(1)'; }
+          else if(role === 'back'){ el.style.left = '50%'; el.style.transform = 'translateX(-50%) scale(1)'; }
+          else { el.style.left = '50%'; el.style.transform = 'translateX(-50%) scale(0.9)'; }
+        });
+
+        dots.forEach(function(d, i){ d.classList.toggle('active', i === activeIndex); });
+
+        window.__deepActiveIndex = activeIndex;
+        if(window.__wheelPolys){
+          window.__wheelPolys.forEach(function(poly){
+            poly.classList.toggle('active', +poly.dataset.wi === activeIndex);
+          });
+        }
+
+        panelNo.textContent = p.no;
+        panelTitle.textContent = p.title;
+        panelQuote.textContent = '「' + p.quote + '」';
+        panelPrice.textContent = p.price;
+        panelCta.href = p.cta;
+
+        panelFlavor.innerHTML = '';
+        p.flavor.forEach(function(f){
+          var span = document.createElement('span');
+          span.textContent = f;
+          panelFlavor.appendChild(span);
+        });
+
+        panelSpecs.innerHTML = '';
+        p.specs.forEach(function(s){
+          var wrap = document.createElement('div');
+          wrap.innerHTML = '<b>' + s[0] + '</b><br>' + s[1];
+          panelSpecs.appendChild(wrap);
+        });
+      }
+
+      function goTo(i){
+        if(isAnimating || i === activeIndex) return;
+        isAnimating = true;
+        activeIndex = i;
+        render();
+        window.setTimeout(function(){ isAnimating = false; }, ANIM_MS);
+      }
+      function navigate(dir){
+        if(isAnimating) return;
+        var next = dir === 'next' ? (activeIndex + 1) % N : (activeIndex + N - 1) % N;
+        goTo(next);
+      }
+
+      if(nextBtn) nextBtn.addEventListener('click', function(){ navigate('next'); });
+      if(prevBtn) prevBtn.addEventListener('click', function(){ navigate('prev'); });
+
+      var touchStartX = null;
+      stage.addEventListener('touchstart', function(e){ touchStartX = e.touches[0].clientX; }, { passive:true });
+      stage.addEventListener('touchend', function(e){
+        if(touchStartX === null) return;
+        var dx = e.changedTouches[0].clientX - touchStartX;
+        if(Math.abs(dx) > 40){ navigate(dx < 0 ? 'next' : 'prev'); }
+        touchStartX = null;
       });
-      setDeep(0);
-      window.__rerenderDeep = function(){ renderDeep(currentDeepIdx < 0 ? 0 : currentDeepIdx); renderDeepMobileList(); };
 
-      if(isFinePointer){
-        var deepFrameEl = document.querySelector('.deep-frame');
-        var deepGridEl = document.querySelector('.deep-grid');
-        deepGridEl.addEventListener('mousemove', function(e){
-          var r = deepFrameEl.getBoundingClientRect();
-          var px = (e.clientX - r.left - r.width/2) / r.width;
-          var py = (e.clientY - r.top - r.height/2) / r.height;
-          deepFrameEl.style.transform = 'perspective(900px) rotateY(' + (px*9).toFixed(2) + 'deg) rotateX(' + (-py*9).toFixed(2) + 'deg)';
-        });
-        deepGridEl.addEventListener('mouseleave', function(){
-          deepFrameEl.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg)';
-        });
+      /* only steal arrow keys while the carousel is actually in view */
+      function onKey(e){
+        if(e.key === 'ArrowRight') navigate('next');
+        if(e.key === 'ArrowLeft') navigate('prev');
       }
-    } catch(e){ console.warn('deep-dive init failed', e); }
+      if('IntersectionObserver' in window){
+        new IntersectionObserver(function(entries){
+          if(entries[0] && entries[0].isIntersecting){ document.addEventListener('keydown', onKey); }
+          else { document.removeEventListener('keydown', onKey); }
+        }, { threshold:0.4 }).observe(stage);
+      }
+
+      buildItems();
+      buildDots();
+      render();
+
+      window.__rerenderDeep = function(){
+        N = products.length;
+        activeIndex = Math.min(activeIndex, N-1);
+        buildItems();
+        buildDots();
+        render();
+      };
+    } catch(e){ console.warn('deep carousel init failed', e); }
   })();
 
   /* --- scroll parallax on origin & story images (isolated) --- */
@@ -1945,8 +2016,7 @@
       var svgNS = 'http://www.w3.org/2000/svg';
       var gridG = document.getElementById('wheelGrid');
       var polysG = document.getElementById('wheelPolys');
-      var chipsWrap = document.getElementById('wheelChips');
-      var activeSet = [0,5];
+      if(!gridG || !polysG) return;
 
       function buildGrid(categories){
         gridG.innerHTML = '';
@@ -1965,7 +2035,7 @@
           line.setAttribute('x2',outer[0]); line.setAttribute('y2',outer[1]);
           line.setAttribute('class','wheel-axis-line');
           gridG.appendChild(line);
-          var labelPt = pointFor(i, maxR+22);
+          var labelPt = pointFor(i, maxR+26);
           var text = document.createElementNS(svgNS,'text');
           text.setAttribute('x', labelPt[0]); text.setAttribute('y', labelPt[1]);
           text.setAttribute('text-anchor','middle'); text.setAttribute('dominant-baseline','middle');
@@ -1975,62 +2045,30 @@
         }
       }
 
-      function renderPolys(){
-        /* build each polygon once and keep the same DOM node around — toggling
-           only the 'active' class (instead of tearing down/rebuilding every
-           click) is what actually lets the CSS opacity transition play instead
-           of popping instantly */
-        if(!polysG.childElementCount){
-          WHEEL_SCORES.forEach(function(w, wi){
-            var pts = w.scores.map(function(s,i){ return pointFor(i, (s/3)*maxR).join(','); }).join(' ');
-            var poly = document.createElementNS(svgNS,'polygon');
-            poly.setAttribute('points', pts);
-            poly.setAttribute('fill', w.color);
-            poly.setAttribute('stroke', w.color);
-            poly.setAttribute('class', 'wheel-poly');
-            poly.dataset.wi = wi;
-            polysG.appendChild(poly);
-          });
-        }
-        Array.prototype.forEach.call(polysG.children, function(poly){
-          var wi = +poly.dataset.wi;
-          poly.classList.toggle('active', activeSet.indexOf(wi) > -1);
-        });
-      }
-
-      function toggle(wi){
-        var idx = activeSet.indexOf(wi);
-        if(idx > -1){
-          if(activeSet.length > 1){ activeSet.splice(idx,1); }
-        } else {
-          if(activeSet.length >= 3){ activeSet.shift(); }
-          activeSet.push(wi);
-        }
-        renderPolys();
-        chipsWrap.querySelectorAll('.wheel-chip').forEach(function(c,ci){ c.classList.toggle('active', activeSet.indexOf(ci)>-1); });
-      }
-
-      function buildChips(){
-        chipsWrap.innerHTML = '';
+      /* single active polygon follows whichever product is centered in the
+         carousel (window.__deepActiveIndex) — no more multi-select compare chips */
+      function buildPolys(){
         WHEEL_SCORES.forEach(function(w, wi){
-          var chip = document.createElement('div');
-          chip.className = 'wheel-chip' + (activeSet.indexOf(wi)>-1 ? ' active' : '');
-          chip.setAttribute('role','button');
-          chip.setAttribute('tabindex','0');
-          chip.innerHTML = '<span class="dot" style="background:'+w.color+'"></span><span class="wname">'+products[wi].title+'</span><span class="wnote">'+products[wi].flavor.slice(0,2).join('・')+'</span>';
-          chip.addEventListener('click', function(){ toggle(wi); });
-          chip.addEventListener('keydown', function(e){ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); toggle(wi); } });
-          chipsWrap.appendChild(chip);
+          var pts = w.scores.map(function(s,i){ return pointFor(i, (s/3)*maxR).join(','); }).join(' ');
+          var poly = document.createElementNS(svgNS,'polygon');
+          poly.setAttribute('points', pts);
+          poly.setAttribute('class', 'wheel-poly');
+          poly.dataset.wi = wi;
+          polysG.appendChild(poly);
+        });
+        window.__wheelPolys = Array.prototype.slice.call(polysG.children);
+        var activeNow = window.__deepActiveIndex || 0;
+        window.__wheelPolys.forEach(function(poly){
+          poly.classList.toggle('active', +poly.dataset.wi === activeNow);
         });
       }
 
-      function fullRender(){
-        buildGrid(getWheelCategories(currentLang));
-        renderPolys();
-        buildChips();
-      }
-      fullRender();
-      window.__rerenderWheel = fullRender;
+      buildGrid(getWheelCategories(currentLang));
+      buildPolys();
+
+      /* language switch only needs to relabel the axis categories — the
+         polygons themselves don't change per language */
+      window.__rerenderWheel = function(){ buildGrid(getWheelCategories(currentLang)); };
     } catch(e){ console.warn('flavor wheel init failed', e); }
   })();
 
