@@ -423,8 +423,19 @@
   }
   .deep-nav-btn:hover{ background:var(--sage-pale); border-color:transparent; transform:translateY(-50%) scale(1.05); }
   .deep-nav-btn svg{ width:20px; height:20px; }
-  .deep-nav-prev{ left:23%; }
-  .deep-nav-next{ right:23%; }
+  /* a flat % guess isn't safe here: .deep-panel is a FIXED max-width:380px
+     card at left:5%, and .deep-wheel-panel is a fixed width:240px card at
+     right:6% — on narrower desktop widths those fixed-px cards eat up a much
+     bigger share of the screen, so a plain percentage button position ends up
+     landing on top of the card instead of beside it (exactly what got flagged).
+     calc() anchors the button to the SAME formula the card itself is
+     positioned with, so there's always a guaranteed 28px gap outside the card
+     no matter the viewport width. It may still sit near/over a faded
+     background can in the ring behind it — that's fine, carousels commonly
+     float their controls over the blurred side items; it must just never
+     land on the readable text card or the wheel. */
+  .deep-nav-prev{ left:calc(5% + 380px + 28px); }
+  .deep-nav-next{ right:calc(6% + 240px + 28px); }
 
   .deep-progress{ position:absolute; bottom:3%; left:50%; transform:translateX(-50%); z-index:30; display:flex; gap:8px; }
   .deep-progress span{ width:22px; height:2px; background:var(--border-soft); cursor:pointer; transition:background .3s ease; }
@@ -507,8 +518,8 @@
        overrides both of these again with its own stacked-flow sizing */
     .deep-wheel-panel{ width:190px; }
     .deep-item.role-center{ height:min(66%, 40vw); }
-    .deep-nav-prev{ left:15%; }
-    .deep-nav-next{ right:15%; }
+    .deep-nav-prev{ left:calc(5% + 380px + 18px); }
+    .deep-nav-next{ right:calc(6% + 190px + 18px); }
   }
 
   @media (max-width:860px){
