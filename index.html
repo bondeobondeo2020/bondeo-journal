@@ -331,7 +331,7 @@
   .tb-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:16px; text-align:left; margin-bottom:22px; }
   .tb-card{ display:block; background:rgba(255,255,255,0.6); border:1px solid var(--border-soft); border-radius:12px; overflow:hidden; transition:transform .5s var(--ease-luxury), box-shadow .5s var(--ease-luxury); }
   .tb-card:hover{ transform:translateY(-5px); box-shadow:0 16px 32px rgba(18,18,18,0.1); }
-  .tb-media{ aspect-ratio:4/5; background:#fbf8f3; overflow:hidden; padding:14px; }
+  .tb-media{ aspect-ratio:4/5; background:transparent; overflow:hidden; padding:14px; }
   .tb-media img{ width:100%; height:100%; object-fit:contain; transition:transform .7s var(--ease-luxury); }
   .tb-card:hover .tb-media img{ transform:scale(1.06); }
   .tb-body{ padding:14px 14px 16px; }
@@ -341,8 +341,8 @@
   .tb-price{ font-size:13px; color:var(--tea-brown); font-family:'Poppins', sans-serif; font-weight:600; }
   .tb-link{ font-size:12px; color:var(--amber); }
   .tb-bundle-bar{ display:flex; align-items:center; gap:24px; background:var(--sage-pale); border-radius:14px; padding:22px 28px; text-align:left; margin-bottom:26px; }
-  .tb-bundle-media{ width:84px; height:84px; border-radius:10px; overflow:hidden; flex-shrink:0; }
-  .tb-bundle-media img{ width:100%; height:100%; object-fit:cover; }
+  .tb-bundle-media{ width:84px; height:84px; overflow:hidden; flex-shrink:0; }
+  .tb-bundle-media img{ width:100%; height:100%; object-fit:contain; }
   .tb-bundle-info{ flex:1; }
   .tb-bundle-tag{ display:inline-block; font-size:11px; letter-spacing:0.06em; color:var(--sage-deep); margin-bottom:6px; }
   .tb-bundle-info h3{ font-size:17px; color:var(--ink); margin-bottom:4px; }
@@ -1035,7 +1035,7 @@
     <p class="sub">三角立體茶包，辦公室、旅行、戶外，隨手一沖就是一杯磅茶。</p>
     <div class="tb-grid">
       <a class="tb-card" href="https://www.bondeo.com.tw/products/four-seasons-tea-bag" target="_blank" rel="noopener">
-        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107967888.jpeg" alt="四季春 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-media"><img src="assets/teabags/four-seasons-tea-bag-cutout.webp" alt="四季春 原葉三角立體茶包" loading="lazy" width="900" height="900"></div>
         <div class="tb-body">
           <h3>四季春</h3>
           <p class="tb-tag">花香百搭日常，隨行也順口</p>
@@ -1043,7 +1043,7 @@
         </div>
       </a>
       <a class="tb-card" href="https://www.bondeo.com.tw/products/osmanthus-oolong-tea-bag" target="_blank" rel="noopener">
-        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968294.jpeg" alt="桂花烏龍 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-media"><img src="assets/teabags/osmanthus-oolong-tea-bag-cutout.webp" alt="桂花烏龍 原葉三角立體茶包" loading="lazy" width="900" height="900"></div>
         <div class="tb-body">
           <h3>桂花烏龍</h3>
           <p class="tb-tag">優雅花香，療癒每個隨行時刻</p>
@@ -1051,7 +1051,7 @@
         </div>
       </a>
       <a class="tb-card" href="https://www.bondeo.com.tw/products/lishan-high-mountain-tea-bag" target="_blank" rel="noopener">
-        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968256.jpeg" alt="梨山高山茶 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-media"><img src="assets/teabags/lishan-high-mountain-tea-bag-cutout.webp" alt="梨山高山茶 原葉三角立體茶包" loading="lazy" width="900" height="900"></div>
         <div class="tb-body">
           <h3>梨山高山茶</h3>
           <p class="tb-tag">純淨冷冽茶韻，隨行沖泡不打折</p>
@@ -1059,7 +1059,7 @@
         </div>
       </a>
       <a class="tb-card" href="https://www.bondeo.com.tw/products/honey-black-tea-bag" target="_blank" rel="noopener">
-        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968388.jpeg" alt="蜜香紅茶 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-media"><img src="assets/teabags/honey-black-tea-bag-cutout.webp" alt="蜜香紅茶 原葉三角立體茶包" loading="lazy" width="900" height="900"></div>
         <div class="tb-body">
           <h3>蜜香紅茶</h3>
           <p class="tb-tag">無糖也自然回甘，隨行必備</p>
@@ -1067,7 +1067,7 @@
         </div>
       </a>
       <a class="tb-card" href="https://www.bondeo.com.tw/products/ruby-black-tea-bag" target="_blank" rel="noopener">
-        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968458.jpeg" alt="紅玉紅茶 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-media"><img src="assets/teabags/ruby-black-tea-bag-cutout.webp" alt="紅玉紅茶 原葉三角立體茶包" loading="lazy" width="900" height="900"></div>
         <div class="tb-body">
           <h3>紅玉紅茶</h3>
           <p class="tb-tag">經典薄荷肉桂香，隨行沖泡也濃郁</p>
@@ -1075,7 +1075,7 @@
         </div>
       </a>
       <a class="tb-card" href="https://www.bondeo.com.tw/products/honey-oolong-tea-bag" target="_blank" rel="noopener">
-        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968055.jpeg" alt="蜜香烏龍 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-media"><img src="assets/teabags/honey-oolong-tea-bag-cutout.webp" alt="蜜香烏龍 原葉三角立體茶包" loading="lazy" width="900" height="900"></div>
         <div class="tb-body">
           <h3>蜜香烏龍<span style="color:var(--mauve-deep); font-size:11px; margin-left:4px;">磅茶限定</span></h3>
           <p class="tb-tag">蜜香甘甜，隨行也能喝到細緻茶韻</p>
@@ -1084,7 +1084,7 @@
       </a>
     </div>
     <div class="tb-bundle-bar">
-      <div class="tb-bundle-media"><img src="https://cdn.store-assets.com/s/1434862/i/107975287.jpeg" alt="磅茶大滿貫 原葉三角立體茶包 全系列收藏組" loading="lazy" width="200" height="200"></div>
+      <div class="tb-bundle-media"><img src="assets/teabags/all-series-tea-bag-cutout.webp" alt="磅茶大滿貫 原葉三角立體茶包 全系列收藏組" loading="lazy" width="200" height="200"></div>
       <div class="tb-bundle-info">
         <span class="tb-bundle-tag">大滿貫・全系列收藏組</span>
         <h3>六款茶包一次收藏</h3>
