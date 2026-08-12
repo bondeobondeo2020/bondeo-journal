@@ -325,6 +325,33 @@
   .bundle-cta{ display:inline-block; text-align:center; border:1px solid var(--ink); color:var(--ink); padding:11px 0; font-size:13px; letter-spacing:0.08em; border-radius:30px; transition:all .3s ease; }
   .bundle-cta:hover{ background:var(--ink); color:var(--cream); }
 
+  .teabags{ padding:100px 0 40px; text-align:center; }
+  .teabags h2{ font-size:30px; color:var(--ink); margin-bottom:10px; }
+  .teabags .sub{ color:var(--ink-soft); font-size:15px; margin-bottom:50px; max-width:560px; margin-left:auto; margin-right:auto; }
+  .tb-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:16px; text-align:left; margin-bottom:22px; }
+  .tb-card{ display:block; background:rgba(255,255,255,0.6); border:1px solid var(--border-soft); border-radius:12px; overflow:hidden; transition:transform .5s var(--ease-luxury), box-shadow .5s var(--ease-luxury); }
+  .tb-card:hover{ transform:translateY(-5px); box-shadow:0 16px 32px rgba(18,18,18,0.1); }
+  .tb-media{ aspect-ratio:1/1; background:var(--sage-pale); overflow:hidden; }
+  .tb-media img{ width:100%; height:100%; object-fit:cover; transition:transform .7s var(--ease-luxury); }
+  .tb-card:hover .tb-media img{ transform:scale(1.06); }
+  .tb-body{ padding:14px 14px 16px; }
+  .tb-card h3{ font-size:14.5px; color:var(--ink); margin-bottom:5px; }
+  .tb-tag{ font-size:12px; color:var(--ink-soft); line-height:1.5; margin-bottom:12px; min-height:36px; }
+  .tb-foot{ display:flex; align-items:center; justify-content:space-between; }
+  .tb-price{ font-size:13px; color:var(--tea-brown); font-family:'Poppins', sans-serif; font-weight:600; }
+  .tb-link{ font-size:12px; color:var(--amber); }
+  .tb-bundle-bar{ display:flex; align-items:center; gap:24px; background:var(--sage-pale); border-radius:14px; padding:22px 28px; text-align:left; margin-bottom:26px; }
+  .tb-bundle-media{ width:84px; height:84px; border-radius:10px; overflow:hidden; flex-shrink:0; }
+  .tb-bundle-media img{ width:100%; height:100%; object-fit:cover; }
+  .tb-bundle-info{ flex:1; }
+  .tb-bundle-tag{ display:inline-block; font-size:11px; letter-spacing:0.06em; color:var(--sage-deep); margin-bottom:6px; }
+  .tb-bundle-info h3{ font-size:17px; color:var(--ink); margin-bottom:4px; }
+  .tb-bundle-info p{ font-size:13px; color:var(--ink-soft); }
+  .tb-bundle-cta{ flex-shrink:0; text-align:right; }
+  .tb-bundle-cta .bundle-price{ margin:0 0 10px; justify-content:flex-end; }
+  .tb-bundle-cta .bundle-cta{ padding:10px 26px; }
+  .tb-more{ text-align:center; }
+
   .trust-line{ margin-top:18px; font-size:13px; letter-spacing:0.02em; }
   .hero .trust-line{ color:rgba(255,255,255,0.85); text-shadow:0 1px 8px rgba(0,0,0,0.35); }
   .collection-cta .trust-line{ color:var(--ink-soft); }
@@ -672,6 +699,11 @@
     .corp-gallery-grid img{height:110px;}
     .perks-grid{grid-template-columns:1fr 1fr;}
     .bundle-grid{grid-template-columns:1fr;}
+    .tb-grid{grid-template-columns:repeat(2,1fr);}
+    .tb-bundle-bar{flex-wrap:wrap; text-align:center; justify-content:center;}
+    .tb-bundle-info{text-align:center; flex:1 1 100%;}
+    .tb-bundle-cta{text-align:center; flex:1 1 100%;}
+    .tb-bundle-cta .bundle-price{justify-content:center;}
     .promo-bar{padding:9px 40px; font-size:12.5px; gap:8px;}
     .promo-bar a{display:none;}
     .quick-buy{right:16px; bottom:16px; padding:12px 18px; font-size:12px;}
@@ -786,6 +818,7 @@
   <a href="#origin" data-label="茶的起源"></a>
   <a href="#deepdive" data-label="系列鑑賞"></a>
   <a href="#wheel" data-label="風味比較"></a>
+  <a href="#teabags" data-label="隨行茶包"></a>
   <a href="#bundles" data-label="超值組合"></a>
   <a href="#perks" data-label="會員好禮"></a>
   <a href="#corporate" data-label="企業採購"></a>
@@ -945,6 +978,7 @@
     <div class="lineup-strip">
       <a href="https://www.bondeo.com.tw/collections/morning-refresh-tea" target="_blank" rel="noopener" data-i18n="lineup_1">🌅 早晨開機提神</a>
       <a href="https://www.bondeo.com.tw/collections/office-daily-tea" target="_blank" rel="noopener" data-i18n="lineup_2">💻 辦公室百搭水壺茶</a>
+      <a href="https://www.bondeo.com.tw/collections/on-the-go-tea" target="_blank" rel="noopener">🎒 隨行茶事</a>
       <a href="https://www.bondeo.com.tw/collections/afternoon-tea-break" target="_blank" rel="noopener" data-i18n="lineup_3">🍰 午後解膩下午茶</a>
       <a href="https://www.bondeo.com.tw/collections/after-work-relaxing-tea" target="_blank" rel="noopener" data-i18n="lineup_4">🌙 下班後的溫柔療癒</a>
     </div>
@@ -991,6 +1025,77 @@
     </div>
 
     <div class="deep-progress" id="deepProgress"></div>
+  </div>
+</section>
+
+<section class="teabags reveal" id="teabags">
+  <div class="wrap">
+    <span class="eyebrow">On The Go · 隨行茶事</span>
+    <h2>同樣六款好茶，隨身帶著走</h2>
+    <p class="sub">三角立體茶包，辦公室、旅行、戶外，隨手一沖就是一杯磅茶。</p>
+    <div class="tb-grid">
+      <a class="tb-card" href="https://www.bondeo.com.tw/products/four-seasons-tea-bag" target="_blank" rel="noopener">
+        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107967889.jpeg" alt="四季春 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-body">
+          <h3>四季春</h3>
+          <p class="tb-tag">花香百搭日常，隨行也順口</p>
+          <div class="tb-foot"><span class="tb-price">NT$309</span><span class="tb-link">選購 →</span></div>
+        </div>
+      </a>
+      <a class="tb-card" href="https://www.bondeo.com.tw/products/osmanthus-oolong-tea-bag" target="_blank" rel="noopener">
+        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968485.jpeg" alt="桂花烏龍 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-body">
+          <h3>桂花烏龍</h3>
+          <p class="tb-tag">優雅花香，療癒每個隨行時刻</p>
+          <div class="tb-foot"><span class="tb-price">NT$389</span><span class="tb-link">選購 →</span></div>
+        </div>
+      </a>
+      <a class="tb-card" href="https://www.bondeo.com.tw/products/lishan-high-mountain-tea-bag" target="_blank" rel="noopener">
+        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968245.jpg" alt="梨山高山茶 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-body">
+          <h3>梨山高山茶</h3>
+          <p class="tb-tag">純淨冷冽茶韻，隨行沖泡不打折</p>
+          <div class="tb-foot"><span class="tb-price">NT$389</span><span class="tb-link">選購 →</span></div>
+        </div>
+      </a>
+      <a class="tb-card" href="https://www.bondeo.com.tw/products/honey-black-tea-bag" target="_blank" rel="noopener">
+        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968477.jpeg" alt="蜜香紅茶 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-body">
+          <h3>蜜香紅茶</h3>
+          <p class="tb-tag">無糖也自然回甘，隨行必備</p>
+          <div class="tb-foot"><span class="tb-price">NT$389</span><span class="tb-link">選購 →</span></div>
+        </div>
+      </a>
+      <a class="tb-card" href="https://www.bondeo.com.tw/products/ruby-black-tea-bag" target="_blank" rel="noopener">
+        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968461.jpeg" alt="紅玉紅茶 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-body">
+          <h3>紅玉紅茶</h3>
+          <p class="tb-tag">經典薄荷肉桂香，隨行沖泡也濃郁</p>
+          <div class="tb-foot"><span class="tb-price">NT$309</span><span class="tb-link">選購 →</span></div>
+        </div>
+      </a>
+      <a class="tb-card" href="https://www.bondeo.com.tw/products/honey-oolong-tea-bag" target="_blank" rel="noopener">
+        <div class="tb-media"><img src="https://cdn.store-assets.com/s/1434862/i/107968051.jpg" alt="蜜香烏龍 原葉三角立體茶包" loading="lazy" width="600" height="600"></div>
+        <div class="tb-body">
+          <h3>蜜香烏龍<span style="color:var(--mauve-deep); font-size:11px; margin-left:4px;">磅茶限定</span></h3>
+          <p class="tb-tag">蜜香甘甜，隨行也能喝到細緻茶韻</p>
+          <div class="tb-foot"><span class="tb-price">NT$399</span><span class="tb-link">選購 →</span></div>
+        </div>
+      </a>
+    </div>
+    <div class="tb-bundle-bar">
+      <div class="tb-bundle-media"><img src="https://cdn.store-assets.com/s/1434862/i/107975287.jpeg" alt="磅茶大滿貫 原葉三角立體茶包 全系列收藏組" loading="lazy" width="200" height="200"></div>
+      <div class="tb-bundle-info">
+        <span class="tb-bundle-tag">大滿貫・全系列收藏組</span>
+        <h3>六款茶包一次收藏</h3>
+        <p>不知道從哪一款開始？不用選，通通帶回家。</p>
+      </div>
+      <div class="tb-bundle-cta">
+        <div class="bundle-price"><span class="was">NT$2,184</span><span class="now">NT$1,940</span></div>
+        <a class="bundle-cta" href="https://www.bondeo.com.tw/products/bondeo-all-series-tea-bag-bundle" target="_blank" rel="noopener">查看組合 →</a>
+      </div>
+    </div>
+    <div class="tb-more"><a class="btn-outline" href="https://www.bondeo.com.tw/collections/on-the-go-tea" target="_blank" rel="noopener">查看隨行茶事全系列 →</a></div>
   </div>
 </section>
 
